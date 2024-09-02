@@ -1,82 +1,97 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paper Challenge - {{ stage.split('_') | map('capitalize') | join(' ') }} - {{ distance }} cm - {{ size|capitalize }}</title>
-  <style>
-    @page {
-        size: {{ size }};
-        margin: 5mm;
-    }
-    body {
-        font-family: sans-serif;
-        margin-top: 0;
-    }
-    h1, h2 {
-        text-align: center;
-        margin-top: 20mm;
-    }
-    .page-break {
-        page-break-after: always;
-    }
-    .target {
-        margin: 0 auto;
-        background-color: dodgerblue;
-        position: absolute;
-        top: 0%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Challenge - {{ stage.split('_') | map('capitalize') | join(' ') }} - {{ distance }} cm
+        - {{ size|capitalize }}</title>
+    <style>
+        @page {
+            size: {{ size }};
+            margin: 5mm;
+        }
 
-    }
-    .circle {
-        border-radius: 50%;
-    }
-    .post {
-        margin: auto;
-        background-color: black;
-        position: relative;
-    }
-    .elevator {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translate(-50%, 0);
-    }
-    .stop-plate {
-        background-color: red !important;
-    }
-    .mounting-point {
-        height: 10mm;
-        width: 0.5mm;
-        background-color: #ccc;
-        margin: auto;
-    }
-    .mounting-info {
-        font-size: xx-small;
-        color: #ccc;
-    }
-    .preview {
-        position: relative;
-        display: block;
-        border-bottom: solid 1px black;
-        border-top: solid 1px black;
-        width: 100%;
-        height: 75mm;
-    }
-    .preview-post {
-        position: absolute;
-    }
-  </style>
+        body {
+            font-family: sans-serif;
+            margin-top: 0;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-top: 20mm;
+        }
+
+        .page-break {
+            page-break-after: always;
+        }
+
+        .target {
+            margin: 0 auto;
+            background-color: dodgerblue;
+            position: absolute;
+            top: 0%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+        }
+
+        .circle {
+            border-radius: 50%;
+        }
+
+        .post {
+            margin: auto;
+            background-color: black;
+            position: relative;
+        }
+
+        .elevator {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+
+        .stop-plate {
+            background-color: red !important;
+        }
+
+        .mounting-point {
+            height: 10mm;
+            width: 0.5mm;
+            background-color: #ccc;
+            margin: auto;
+        }
+
+        .mounting-info {
+            font-size: xx-small;
+            color: #ccc;
+        }
+
+        .preview {
+            position: relative;
+            display: block;
+            border-bottom: solid 1px black;
+            border-top: solid 1px black;
+            width: 100%;
+            height: 75mm;
+        }
+
+        .preview-post {
+            position: absolute;
+        }
+    </style>
 </head>
 <body>
 <div>
-    <h1>Paper Challange</h1>
+    <h1>Paper Challenge</h1>
     <h2>{{ stage.split('_') | map('capitalize') | join(' ') }}</h2>
     <div class="preview">
         {% for target in preview_target_info %}
-            <div class="post preview-post {% if target.stop_plate %} stop-plate {% endif %}" style="top: {{ 50 - target.post_height }}mm; left: {{ target.position + 3 }}mm; width: {{ target.post_width }}mm; height: {{ target.height }}mm;">
-                 <div class="target {% if target.width == target.height %} circle {% endif %}" style="width: {{ target.width }}mm; height: {{ target.height }}mm"></div>
+            <div class="post preview-post {% if target.stop_plate %} stop-plate {% endif %}"
+                 style="top: {{ 50 - target.post_height }}mm; left: {{ target.position + 3 }}mm; width: {{ target.post_width }}mm; height: {{ target.height }}mm;">
+                <div class="target {% if target.width == target.height %} circle {% endif %}"
+                     style="width: {{ target.width }}mm; height: {{ target.height }}mm"></div>
             </div>
         {% endfor %}
     </div>
@@ -86,7 +101,9 @@
     <ul>
         <li>Umieść z lewej strony ściany pierwszy cel ze znacznikiem "punkt ZERO"</li>
         <li>Wyznacz pole startowe {{ box_position }}cm od punktu "zero"</li>
-        <li>Upewnij się, że pole startowe znjaduje się w dogodnym miejscu, pomieszczenia, tak aby nic nie przeszkazdało w swobodnym dobyciu i składaniu do celów na całej szerokości ściany</li>
+        <li>Upewnij się, że pole startowe znjaduje się w dogodnym miejscu, pomieszczenia, tak aby nic nie przeszkazdało
+            w swobodnym dobyciu i składaniu do celów na całej szerokości ściany
+        </li>
         <li>W razie potrzeby dostosuj pierwszy cel wraz z punktem ZERO i powtórz dwa powyższe kroki</li>
         <li>Umieść na ścianie pozostałe cele zgodnie z odległościami podanymi na znacznikach pozycji na dole każdego celu. Upewnij się, że wszystkie cele są umieszczone w jednej linii równoległej do podłoża</li>
     </ul>

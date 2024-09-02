@@ -1,145 +1,174 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paper Challenge</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Challenge</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
     <style>
-         /* Hide the radio buttons */
-    input[type="radio"] {
-      display: none;
-    }
+        /* Hide the radio buttons */
+        input[type="radio"] {
+            display: none;
+        }
 
-    /* Style the labels to act like buttons */
-    label {
-      display: block;
-      cursor: pointer;
-      border: 2px solid gray;
-      border-radius: 8px;
-      overflow: hidden;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      text-align: center;
-    }
+        /* Style the labels to act like buttons */
+        label {
+            display: block;
+            cursor: pointer;
+            border: 2px solid gray;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            text-align: center;
+        }
 
-    /* Highlight the selected label */
-    input[type="radio"]:checked + label {
-      border-color: #3b82f6; /* Blue color */
-      box-shadow: 0 0 10px #3b82f6;
-    }
+        /* Highlight the selected label */
+        input[type="radio"]:checked + label {
+            border-color: #3b82f6; /* Blue color */
+            box-shadow: 0 0 10px #3b82f6;
+        }
 
-    /* Add hover effect */
-    label:hover {
-      border-color: #3b82f6;
-    }
+        /* Add hover effect */
+        label:hover {
+            border-color: #3b82f6;
+        }
 
-    /* Style the images */
-    label img {
-      width: 100%;
-      height: auto;
-      max-height: 150px; /* Limit image height */
-    }
+        /* Style the images */
+        label img {
+            width: 100%;
+            height: auto;
+            max-height: 150px; /* Limit image height */
+        }
 
-    /* Style the text below images */
-    label p {
-      margin-top: 8px;
-      font-size: 1rem;
-      font-weight: bold;
-      color: #374151; /* Gray color */
-    }
+        /* Style the text below images */
+        label p {
+            margin-top: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #374151; /* Gray color */
+        }
+
+        #about {
+            display: none;
+        }
+
+        .about-container {
+            display: none;
+        }
+
+        #about:checked ~ .about-container {
+            display: block;
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
-  <div class="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
+<div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
     <h1 class="text-2xl font-bold mb-6 text-center text-gray-700">Paper Challenge</h1>
-    <form action="/generate-pdf" method="post">
-      <div class="mb-6">
-        <h2>Format druku</h2>
-        <div id="size" class="flex place-content-center">
-            <input type="radio" id="a4" name="size" value="a4" class="absolute inset-0 opacity-0" required>
-            <label for="a4" class="cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all hover:border-blue-400">
-              <img src="{{ url_for('static', filename='images/a4.png') }}" alt="A4 (210mm x 297mm)" class="w-24 h-auto">
-            </label>
-            <input type="radio" id="a3" name="size" value="a3" class="absolute inset-0 opacity-0">
-            <label for="a3" class="cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all hover:border-blue-400">
-              <img src="{{ url_for('static', filename='images/a3.png') }}" alt="A3 (297mm x 420mm)" class="w-24 h-auto">
-            </label>
+    <input type="checkbox" class="text-2xl font-bold mb-6 text-center text-gray-700" id="about"/>
+    <label class="mx-auto max-w-2xl" for="about">O projekcie</label>
+    <div class="about-container max-w-2xl mx-auto">
+        <p class="mt-4">Projekt powstał na potrzeby treningu Steel Challenge w domowym zaciszu</p>
+        <p class="mt-2">Ostrzeżenie: Od ponad 11 lat pracuję z PHP, więc mogą być widoczne naleciałości!<br/>Ten projekt
+            to moje pierwsze... no może drugie kroki w Pythonie. </p>
+        <p class="mt-2">Kopiowanie, rozpowszechnianie, modyfikowanie i udostępnianie na potrzeby własne, klubowe lub dla
+            kolegi, stanowczo zalecane</p>
+    </div>
+    <h2 class="my-10 mx-auto text-center font-bold text-xl">Wygeneruj tor</h2>
+    <form class="" action="/generate-pdf" method="post">
+        <div class="mb-6 max-w-2xl mx-auto">
+            <h2>Odległość od ściany</h2>
+            <input type="number" id="distance" name="distance"
+                   class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
         </div>
-      </div>
-
-      <div class="mb-6">
-          <h2>Tor</h2>
-        <div id="stage" class="grid grid-cols-1 gap-4">
-          <div>
-            <input type="radio" id="five_to_go" name="stage" value="five_to_go" required>
-            <label for="five_to_go">
-                <p>Five To Go</p>
-                <img src="{{ url_for('static', filename='images/five_to_go.png') }}" alt="Five To Go">
-            </label>
-          </div>
-          <div>
-            <input type="radio" id="showdown_left" name="stage" value="showdown_left">
-            <label for="showdown_left">
-                <p>Showdown (left box)</p>
-                <img src="{{ url_for('static', filename='images/showdown_left.png') }}" alt="Showdown (left box)">
-            </label>
-          </div>
-          <div>
-            <input type="radio" id="showdown_right" name="stage" value="showdown_right">
-            <label for="showdown_right">
-                <p>Showdown (right box)</p>
-                <img src="{{ url_for('static', filename='images/showdown_right.png') }}" alt="Showdown (right box)">
-            </label>
-          </div>
-          <div>
-            <input type="radio" id="smoke_and_hope" name="stage" value="smoke_and_hope">
-            <label for="smoke_and_hope">
-                <p>Smoke & Hope</p>
-                <img src="{{ url_for('static', filename='images/smoke_and_hope.png') }}" alt="Smoke & Hope">
-            </label>
-          </div>
-          <div>
-            <input type="radio" id="accelerator" name="stage" value="accelerator">
-            <label for="accelerator">
-                <p>Accelerator</p>
-                <img src="{{ url_for('static', filename='images/accelerator.png') }}" alt="Accelerator">
-            </label>
-          </div>
-          <div>
-            <input type="radio" id="pendulum" name="stage" value="pendulum">
-            <label for="pendulum">
-                <p>Pendulum</p>
-                <img src="{{ url_for('static', filename='images/pendulum.png') }}" alt="Pendulum">
-            </label>
-          </div>
-          <div>
-            <input type="radio" id="speed_option" name="stage" value="speed_option">
-            <label for="speed_option">
-                <p>Speed Option</p>
-                <img src="{{ url_for('static', filename='images/speed_option.png') }}" alt="Speed Option">
-            </label>
-          </div>
-          <div>
-            <input type="radio" id="roundabout" name="stage" value="roundabout">
-            <label for="roundabout">
-                <p>Roundabout</p>
-                <img src="{{ url_for('static', filename='images/roundabout.png') }}" alt="RoundAbout">
-            </label>
-          </div>
+        <div class="mb-6 max-w-2xl mx-auto mt-10">
+            <h2>Format druku</h2>
+            <div id="size" class="flex place-content-center">
+                <input type="radio" id="a4" name="size" value="a4" class="absolute inset-0 opacity-0" required>
+                <label for="a4"
+                       class="cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all hover:border-blue-400">
+                    <img src="{{ url_for('static', filename='images/a4.png') }}" alt="A4 (210mm x 297mm)"
+                         class="w-24 h-auto">
+                </label>
+                <input type="radio" id="a3" name="size" value="a3" class="absolute inset-0 opacity-0">
+                <label for="a3"
+                       class="cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all hover:border-blue-400">
+                    <img src="{{ url_for('static', filename='images/a3.png') }}" alt="A3 (297mm x 420mm)"
+                         class="w-24 h-auto">
+                </label>
+            </div>
         </div>
-      </div>
 
-      <div class="mb-6">
-          <h2>Odległość od ściany</h2>
-        <input type="number" id="distance" name="distance" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
-      </div>
+        <div class="mb-6 max-w-2xl mx-auto">
+            <h2>Tor</h2>
+            <div id="stage" class="grid grid-cols-1 gap-4">
+                <div>
+                    <input type="radio" id="five_to_go" name="stage" value="five_to_go" required>
+                    <label for="five_to_go">
+                        <p>Five To Go</p>
+                        <img src="{{ url_for('static', filename='images/five_to_go.png') }}" alt="Five To Go">
+                    </label>
+                </div>
+                <div>
+                    <input type="radio" id="showdown_left" name="stage" value="showdown_left">
+                    <label for="showdown_left">
+                        <p>Showdown (left box)</p>
+                        <img src="{{ url_for('static', filename='images/showdown_left.png') }}"
+                             alt="Showdown (left box)">
+                    </label>
+                </div>
+                <div>
+                    <input type="radio" id="showdown_right" name="stage" value="showdown_right">
+                    <label for="showdown_right">
+                        <p>Showdown (right box)</p>
+                        <img src="{{ url_for('static', filename='images/showdown_right.png') }}"
+                             alt="Showdown (right box)">
+                    </label>
+                </div>
+                <div>
+                    <input type="radio" id="smoke_and_hope" name="stage" value="smoke_and_hope">
+                    <label for="smoke_and_hope">
+                        <p>Smoke & Hope</p>
+                        <img src="{{ url_for('static', filename='images/smoke_and_hope.png') }}" alt="Smoke & Hope">
+                    </label>
+                </div>
+                <div>
+                    <input type="radio" id="accelerator" name="stage" value="accelerator">
+                    <label for="accelerator">
+                        <p>Accelerator</p>
+                        <img src="{{ url_for('static', filename='images/accelerator.png') }}" alt="Accelerator">
+                    </label>
+                </div>
+                <div>
+                    <input type="radio" id="pendulum" name="stage" value="pendulum">
+                    <label for="pendulum">
+                        <p>Pendulum</p>
+                        <img src="{{ url_for('static', filename='images/pendulum.png') }}" alt="Pendulum">
+                    </label>
+                </div>
+                <div>
+                    <input type="radio" id="speed_option" name="stage" value="speed_option">
+                    <label for="speed_option">
+                        <p>Speed Option</p>
+                        <img src="{{ url_for('static', filename='images/speed_option.png') }}" alt="Speed Option">
+                    </label>
+                </div>
+                <div>
+                    <input type="radio" id="roundabout" name="stage" value="roundabout">
+                    <label for="roundabout">
+                        <p>Roundabout</p>
+                        <img src="{{ url_for('static', filename='images/roundabout.png') }}" alt="RoundAbout">
+                    </label>
+                </div>
+            </div>
+        </div>
 
-      <div class="text-center">
-        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
-          Generuj
-        </button>
-      </div>
+        <div class="text-center">
+            <button type="submit"
+                    class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
+                Generuj
+            </button>
+        </div>
     </form>
-  </div>
+</div>
 </body>
 </html>

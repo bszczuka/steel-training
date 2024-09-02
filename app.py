@@ -1,74 +1,112 @@
 import math
-from shutil import posix
 
 from flask import Flask, render_template, request, send_file
 from weasyprint import HTML
 import io
-
 
 app = Flask(__name__)
 
 # Original values dictionary
 VALUES = {
     "five_to_go": {
-        "t1": {"len_a": 3100, "len_h": 9100, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False, 'side': 'left'},
-        "t2": {"len_a": 1000, "len_h": 11000, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False, 'side': 'left'},
-        "t3": {"len_a": 1000, "len_h": 13700, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False, 'side': 'right'},
-        "t4": {"len_a": 3100, "len_h": 16500, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False, 'side': 'right'},
-        "t5": {"len_a": 5200, "len_h": 6400, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True, 'side': 'right'},
+        "t1": {"len_a": 3100, "len_h": 9100, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t2": {"len_a": 1000, "len_h": 11000, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t3": {"len_a": 1000, "len_h": 13700, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
+        "t4": {"len_a": 3100, "len_h": 16500, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
+        "t5": {"len_a": 5200, "len_h": 6400, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True,
+               'side': 'right'},
     },
     "showdown_left": {
-        "t1": {"len_a": 1800, "len_h": 22900, 'width': 400, 'height': 600, 'elevation': 200, 'stop_plate': False, 'side': 'left'},
-        "t2": {"len_a": 200, "len_h": 9000, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False, 'side': 'right'},
-        "t3": {"len_a": 1000, "len_h": 11000, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True, 'side': 'right'},
-        "t4": {"len_a": 3800, "len_h": 22900, 'width': 400, 'height': 600, 'elevation': 200, 'stop_plate': False, 'side': 'right'},
-        "t5": {"len_a": 2200, "len_h": 9000, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False, 'side': 'right'},
+        "t1": {"len_a": 1800, "len_h": 22900, 'width': 400, 'height': 600, 'elevation': 200, 'stop_plate': False,
+               'side': 'left'},
+        "t2": {"len_a": 200, "len_h": 9000, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
+        "t3": {"len_a": 1000, "len_h": 11000, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True,
+               'side': 'right'},
+        "t4": {"len_a": 3800, "len_h": 22900, 'width': 400, 'height': 600, 'elevation': 200, 'stop_plate': False,
+               'side': 'right'},
+        "t5": {"len_a": 2200, "len_h": 9000, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
     },
     "showdown_right": {
-        "t1": {"len_a": 2200, "len_h": 9000, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False, 'side': 'left'},
-        "t2": {"len_a": 3800, "len_h": 22900, 'width': 400, 'height': 600, 'elevation': 200, 'stop_plate': False, 'side': 'left'},
-        "t3": {"len_a": 1000, "len_h": 11000, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True, 'side': 'left'},
-        "t4": {"len_a": 200, "len_h": 9000, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False, 'side': 'left'},
-        "t5": {"len_a": 1800, "len_h": 22900, 'width': 400, 'height': 600, 'elevation': 200, 'stop_plate': False, 'side': 'right'},
+        "t1": {"len_a": 2200, "len_h": 9000, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t2": {"len_a": 3800, "len_h": 22900, 'width': 400, 'height': 600, 'elevation': 200, 'stop_plate': False,
+               'side': 'left'},
+        "t3": {"len_a": 1000, "len_h": 11000, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True,
+               'side': 'left'},
+        "t4": {"len_a": 200, "len_h": 9000, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t5": {"len_a": 1800, "len_h": 22900, 'width': 400, 'height': 600, 'elevation': 200, 'stop_plate': False,
+               'side': 'right'},
 
     },
     "smoke_and_hope": {
-        "t1": {"len_a": 4300, "len_h": 6400, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False, 'side': 'left'},
-        "t2": {"len_a": 2700, "len_h": 8200, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False, 'side': 'left'},
-        "t3": {"len_a": 0, "len_h": 12800, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True, 'side': 'right'},
-        "t4": {"len_a": 2700, "len_h": 8200, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False, 'side': 'right'},
-        "t5": {"len_a": 4300, "len_h": 6400, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False, 'side': 'right'},
+        "t1": {"len_a": 4300, "len_h": 6400, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False,
+               'side': 'left'},
+        "t2": {"len_a": 2700, "len_h": 8200, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False,
+               'side': 'left'},
+        "t3": {"len_a": 0, "len_h": 12800, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True,
+               'side': 'right'},
+        "t4": {"len_a": 2700, "len_h": 8200, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False,
+               'side': 'right'},
+        "t5": {"len_a": 4300, "len_h": 6400, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False,
+               'side': 'right'},
 
     },
     "accelerator": {
-        "t1": {"len_a": 3600, "len_h": 9100, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False, 'side': 'left'},
-        "t2": {"len_a": 1200, "len_h": 9100, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False, 'side': 'left'},
-        "t3": {"len_a": 0, "len_h": 13700, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True, 'side': 'right'},
-        "t4": {"len_a": 1900, "len_h": 18300, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False, 'side': 'right'},
-        "t5": {"len_a": 6200, "len_h": 18300, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False, 'side': 'right'},
+        "t1": {"len_a": 3600, "len_h": 9100, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t2": {"len_a": 1200, "len_h": 9100, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False,
+               'side': 'left'},
+        "t3": {"len_a": 0, "len_h": 13700, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True,
+               'side': 'right'},
+        "t4": {"len_a": 1900, "len_h": 18300, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
+        "t5": {"len_a": 6200, "len_h": 18300, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False,
+               'side': 'right'},
 
     },
     "pendulum": {
-        "t1": {"len_a": 3800, "len_h": 16500, 'width': 300, 'height': 300, 'elevation': 400, 'stop_plate': False, 'side': 'left'},
-        "t2": {"len_a": 1900, "len_h": 16500, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False, 'side': 'left'},
-        "t3": {"len_a": 0, "len_h": 9100, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True, 'side': 'right'},
-        "t4": {"len_a": 1900, "len_h": 16500, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False, 'side': 'right'},
-        "t5": {"len_a": 3800, "len_h": 16500, 'width': 300, 'height': 300, 'elevation': 400, 'stop_plate': False, 'side': 'right'},
+        "t1": {"len_a": 3800, "len_h": 16500, 'width': 300, 'height': 300, 'elevation': 400, 'stop_plate': False,
+               'side': 'left'},
+        "t2": {"len_a": 1900, "len_h": 16500, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t3": {"len_a": 0, "len_h": 9100, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True,
+               'side': 'right'},
+        "t4": {"len_a": 1900, "len_h": 16500, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
+        "t5": {"len_a": 3800, "len_h": 16500, 'width': 300, 'height': 300, 'elevation': 400, 'stop_plate': False,
+               'side': 'right'},
 
     },
     "speed_option": {
-        "t1": {"len_a": 3700, "len_h": 9100, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False, 'side': 'left'},
-        "t2": {"len_a": 6600, "len_h": 32000, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': True, 'side': 'left'},
-        "t3": {"len_a": 1800, "len_h": 18300, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False, 'side': 'left'},
-        "t4": {"len_a": 2000, "len_h": 7300, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False, 'side': 'right'},
-        "t5": {"len_a": 6400, "len_h": 13700, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False, 'side': 'right'},
+        "t1": {"len_a": 3700, "len_h": 9100, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t2": {"len_a": 6600, "len_h": 32000, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': True,
+               'side': 'left'},
+        "t3": {"len_a": 1800, "len_h": 18300, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t4": {"len_a": 2000, "len_h": 7300, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
+        "t5": {"len_a": 6400, "len_h": 13700, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
     },
     "roundabout": {
-        "t1": {"len_a": 2700, "len_h": 13700, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False, 'side': 'left'},
-        "t2": {"len_a": 600, "len_h": 6400, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False, 'side': 'left'},
-        "t3": {"len_a": 600, "len_h": 9100, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True, 'side': 'right'},
-        "t4": {"len_a": 2500, "len_h": 13700, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False, 'side': 'right'},
-        "t5": {"len_a": 2500, "len_h": 6400, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False, 'side': 'right'},
+        "t1": {"len_a": 2700, "len_h": 13700, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t2": {"len_a": 600, "len_h": 6400, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t3": {"len_a": 600, "len_h": 9100, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True,
+               'side': 'right'},
+        "t4": {"len_a": 2500, "len_h": 13700, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
+        "t5": {"len_a": 2500, "len_h": 6400, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
     }
 }
 
@@ -152,7 +190,7 @@ def generate_pdf():
     pdf_file = io.BytesIO()
     HTML(string=rendered_html).write_pdf(pdf_file)
     pdf_file.seek(0)
-    filename = 'Paper Challange - '+stage.replace('_', ' ')+' - '+str(distance)+'cm-'+size+'.pdf'
+    filename = 'Paper Challenge - ' + stage.replace('_', ' ') + ' - ' + str(distance) + 'cm-' + size + '.pdf'
 
     return send_file(pdf_file, download_name=filename, as_attachment=False)
 
