@@ -185,7 +185,7 @@ def generate_pdf():
         wall_length=wall_length,
         box_position=box_position,
     )
-    # return rendered_html
+    #return rendered_html
 
     pdf_file = io.BytesIO()
     HTML(string=rendered_html).write_pdf(pdf_file)
