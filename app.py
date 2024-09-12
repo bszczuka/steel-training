@@ -6,7 +6,6 @@ import io
 
 app = Flask(__name__)
 
-# Original values dictionary
 VALUES = {
     "five_to_go": {
         "t1": {"len_a": 3100, "len_h": 9100, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
@@ -110,6 +109,29 @@ VALUES = {
     }
 }
 
+def calculate_distance(desired_wall_length, stage, size):
+    wall_extra_space_for_paper = 297 if size == 'a3' else 210
+
+    distance = 1
+    step = 1000
+
+    while True:
+        targets = [f't{i}' for i in range(1, 6)]
+        target_info = [_target_info(distance, stage, size, target) for target in targets]
+
+        wall_length = target_info[-1]['position'] + wall_extra_space_for_paper
+
+        if abs(wall_length - desired_wall_length) <= 0.5:
+            break
+        if wall_length > desired_wall_length:
+            distance -= step
+            step = step / 10
+            continue
+        distance += step;
+        if distance > 7000:
+            break
+
+    return distance
 
 def _target_info(distance, stage, size, target):
     values = VALUES[stage][target]
@@ -160,10 +182,13 @@ def index():
 
 @app.route('/generate-pdf', methods=['POST'])
 def generate_pdf():
-    distance = int(request.form.get('distance', 0))
+    distance = int(request.form.get('distance', 1) or 1)
     distance_in_mm = distance * 10
     stage = request.form.get('stage')
     size = request.form.get('size')
+    distance_type = request.form.get('distance_type')
+    if distance_type == 'wall':
+        distance_in_mm = calculate_distance(distance_in_mm, stage, size)
 
     targets = [f't{i}' for i in range(1, 6)]
     target_info = [_target_info(distance_in_mm, stage, size, target) for target in targets]
@@ -177,7 +202,7 @@ def generate_pdf():
 
     rendered_html = render_template(
         'pdf_template.html',
-        distance=distance,
+        distance=distance_in_mm/10,
         size=size,
         stage=stage,
         target_info=target_info,
