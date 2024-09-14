@@ -57,6 +57,14 @@
             position: absolute;
             bottom: 30%;
         }
+        .preview-img {
+            width: {{target_width*preview_scale}}cm;
+            height: {{target_height*preview_scale}}cm;
+        }
+        .img {
+            width: {{target_width}}cm;
+            height: {{target_height}}cm;
+        }
     </style>
 </head>
 
@@ -68,15 +76,7 @@
         <div class="preview">
             {% for i in range(3) %}
             <div class="preview-target w-[{{target_width*preview_scale}}cm] h-[{{target_height*preview_scale}}cm]" style="left: {{(preview_margin + i * preview_scale * gap)}}cm;">
-                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 530"  width="{{target_width*preview_scale}}cm" height="{{target_height*preview_scale}}cm">
-                    <title>ipsc-svg</title>
-                    <defs>
-                        {% include 'ipsc_target.html' %}
-                    </defs>
-                    <style>
-                    </style>
-                    <use id="Background" href="#img1" x="0" y="0"/>
-                </svg>
+                <img src="file:///home/bogo/paper-challenge/static/images/ipsc.svg"alt="IPSC - El Presidente" class="preview-img">
             </div>
             {% endfor %}
         </div>
@@ -101,15 +101,7 @@
     <div class="page-break">
         <div class="content">
             <div class="target mx-auto" style="width: {{target_width}}cm; height: {{target_height}}cm;" >
-                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 530"  width="{{target_width}}cm" height="{{target_height}}cm"  >
-                    <title>ipsc-svg</title>
-                    <defs>
-                        {% include 'ipsc_target.html' %}
-                    </defs>
-                    <style>
-                    </style>
-                    <use id="Background" href="#img1" x="0" y="0"/>
-                </svg>
+                <img src="file:///home/bogo/paper-challenge/static/images/ipsc.svg" alt="IPSC - El Presidente" class="img"/>
             </div>
             
             {% if i==0 %}
