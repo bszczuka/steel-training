@@ -83,11 +83,11 @@
     </div>
 
     <p>Wymagana długość ściany: {{ wall_length/10 }}cm</p>
-    <p>Odległość od ściany: {{ distance }}cm</p>
+    <p>Odległość od ściany: {{ distance|round(1,'ceil') }}cm</p>
     <p>Przygotowanie toru:</p>
     <ul>
         <li>Umieść z lewej strony ściany pierwszy cel ze znacznikiem "punkt ZERO"</li>
-        <li>Wyznacz pole startowe {{ box_position }}cm od punktu "zero"</li>
+        <li>Wyznacz pole startowe {{ box_position }}cm od punktu "zero" (wzdłuż ściany) oraz w odległości {{distance}}cm od ściany</li>
         <li>Upewnij się, że pole startowe znjaduje się w dogodnym miejscu, pomieszczenia, tak aby nic nie przeszkazdało
             w swobodnym dobyciu i składaniu do celów na całej szerokości ściany
         </li>
@@ -113,7 +113,7 @@
             {% if target.target == 't1' %}
                 <div class="mounting-info">punkt ZERO ({{ stage.split('_') | map('capitalize') | join(' ') }})</div>
             {% else %}
-                <div class="mounting-info">{{ target.position / 10 }}cm from 0 point ({{ stage.split('_') | map('capitalize') | join(' ') }})</div>
+                <div class="mounting-info">{{ target.position / 10 }}cm od punktu ZERO ({{ stage.split('_') | map('capitalize') | join(' ') }})</div>
             {% endif %}
             <div class="mounting-point"></div>
         </div>

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Steel Challenge{% endblock %}
+{% block content %}
+<form class="" action="/generate-pdf" method="post">
+    {% include 'setup.html' %}
+
+    <div class="mb-6 max-w-2xl mx-auto">
+        <h2>Tor</h2>
+        <div id="stage" class="grid grid-cols-1 gap-4">
+            <div>
+                <label for="five_to_go">
+                    <p>Five To Go</p>
+                    <img src="{{ url_for('static', filename='images/five_to_go.png') }}" alt="Five To Go">
+                    <input type="radio" id="five_to_go" name="stage" value="five_to_go" required>
+                </label>
+            </div>
+            <div>
+                <label for="showdown_left">
+                    <p>Showdown (left box)</p>
+                    <img src="{{ url_for('static', filename='images/showdown_left.png') }}"
+                         alt="Showdown (left box)">
+                <input type="radio" id="showdown_left" name="stage" value="showdown_left">
+                </label>
+            </div>
+            <div>
+                <label for="showdown_right">
+                    <p>Showdown (right box)</p>
+                    <img src="{{ url_for('static', filename='images/showdown_right.png') }}"
+                         alt="Showdown (right box)">
+                    <input type="radio" id="showdown_right" name="stage" value="showdown_right">
+                </label>
+            </div>
+            <div>
+                <label for="smoke_and_hope">
+                    <p>Smoke & Hope</p>
+                    <img src="{{ url_for('static', filename='images/smoke_and_hope.png') }}" alt="Smoke & Hope">
+                    <input type="radio" id="smoke_and_hope" name="stage" value="smoke_and_hope">
+                </label>
+            </div>
+            <div>
+                <label for="accelerator">
+                    <p>Accelerator</p>
+                    <img src="{{ url_for('static', filename='images/accelerator.png') }}" alt="Accelerator">
+                   <input type="radio" id="accelerator" name="stage" value="accelerator">
+                </label>
+            </div>
+            <div>
+                <label for="pendulum">
+                    <p>Pendulum</p>
+                    <img src="{{ url_for('static', filename='images/pendulum.png') }}" alt="Pendulum">
+                    <input type="radio" id="pendulum" name="stage" value="pendulum">
+                </label>
+            </div>
+            <div>
+                <label for="speed_option">
+                    <p>Speed Option</p>
+                    <img src="{{ url_for('static', filename='images/speed_option.png') }}" alt="Speed Option">
+                    <input type="radio" id="speed_option" name="stage" value="speed_option">
+                </label>
+            </div>
+            <div>
+                <label for="roundabout">
+                    <p>Roundabout</p>
+                    <img src="{{ url_for('static', filename='images/roundabout.png') }}" alt="RoundAbout">
+                    <input type="radio" id="roundabout" name="stage" value="roundabout">
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit"
+                class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors">
+            Generuj
+        </button>
+    </div>
+</form>
+{% endblock %}

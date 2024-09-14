@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Challenge</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+    <style>
+        /* Style the labels to act like buttons */
+        label {
+            display: block;
+            cursor: pointer;
+            border: 2px solid gray;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            text-align: center;
+        }
+
+        /* Highlight the selected label */
+        label:has(input[type="radio"]:checked) {
+            border-color: dodgerblue;
+            box-shadow: 0 0 10px #3b82f6;
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
+        <h1 class="text-2xl font-bold mb-6 text-center text-gray-700">Paper Challenge</h1>
+        <h2 class="my-10 mx-auto text-center font-bold text-xl">Wygeneruj tor {% block title %}{% endblock %}</h2>
+        <div class="flex justify-center gap-6">
+            <a href="{{ url_for('index') }}"
+                class="{{ 'shadow-inner shadow-blue-900' if current_url == url_for('index') else '' }} bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
+                Steel Challenge
+            </a>
+            <a href="{{ url_for('shootoff') }}"
+                    class="{{ 'shadow-inner shadow-blue-900' if current_url == url_for('shootoff') else '' }} bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
+                Shootoff
+            </a>
+            <a href="{{ url_for('ipsc') }}"
+                    class="{{ 'shadow-inner shadow-blue-900' if current_url == url_for('ipsc') else '' }} bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
+                IPSC - El Presidente
+            </a>
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

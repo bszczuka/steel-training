@@ -6,6 +6,14 @@ import io
 
 app = Flask(__name__)
 
+SHOOTOFF_DISTANCE = 1200
+SHOOTOFF_GAP = 100
+IPSC_DISTANCE = 914
+IPSC_GAP = 92
+IPSC_TARGET_WIDTH = 46
+IPSC_TARGET_HEIGHT = 58
+IPSC_STAGE_WIDTH = 322
+
 VALUES = {
     "five_to_go": {
         "t1": {"len_a": 3100, "len_h": 9100, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
@@ -109,6 +117,135 @@ VALUES = {
     }
 }
 
+@app.route('/')
+def index():
+    return render_template('sc.html', current_url=request.path)
+
+@app.route('/shootoff')
+def shootoff():
+    return render_template('shootoff.html', current_url=request.path)
+
+@app.route('/ipsc')
+def ipsc():
+    return render_template('ipsc.html', current_url=request.path)
+
+@app.route('/generate-pdf', methods=['POST'])
+def generate_pdf():
+    distance = int(request.form.get('distance', 1) or 1)
+    distance_in_mm = distance * 10
+    stage = request.form.get('stage')
+    size = request.form.get('size')
+    distance_type = request.form.get('distance_type')
+    if distance_type == 'wall':
+        distance_in_mm = calculate_distance(distance_in_mm, stage, size)
+
+    targets = [f't{i}' for i in range(1, 6)]
+    target_info = [_target_info(distance_in_mm, stage, size, target) for target in targets]
+    wall_extra_space_for_paper = 297 if size == 'a3' else 210
+    wall_length = target_info[-1]['position'] + wall_extra_space_for_paper
+    preview_size = 267 if size == 'a3' else 190
+    preview_scale = preview_size / target_info[-1]['position']
+    preview_distance = distance_in_mm * preview_scale
+    preview_target_info = [_target_info(preview_distance, stage, size, target) for target in targets]
+    box_position = int(target_info[0]['sim_a_len']) / 10
+
+    rendered_html = render_template(
+        'pdf_template.html',
+        distance=distance_in_mm/10,
+        size=size,
+        stage=stage,
+        target_info=target_info,
+        preview_target_info=preview_target_info,
+        wall_length=wall_length,
+        box_position=box_position,
+    )
+    #return rendered_html
+
+    pdf_file = io.BytesIO()
+    HTML(string=rendered_html).write_pdf(pdf_file)
+    pdf_file.seek(0)
+    filename = 'Paper Challenge - ' + stage.replace('_', ' ') + ' - ' + str(distance) + 'cm-' + size + '.pdf'
+
+    return send_file(pdf_file, download_name=filename, as_attachment=False)
+
+
+@app.route('/generate-pdf-shootoff', methods=['POST'])
+def generate_pdf_shootoff():
+    distance = int(request.form.get('distance', 1) or 1)
+    size = request.form.get('size')
+    distance_type = request.form.get('distance_type')
+    target_count = 6
+    if distance_type == 'wall':
+        desired_wall_length = distance
+        distance = calculate_distance_shootoff(desired_wall_length, size, target_count)
+    target_line = (target_count - 1) * SHOOTOFF_GAP
+    scale = distance / SHOOTOFF_DISTANCE
+    wall_extra_space_for_paper = 29.7 if size == 'a3' else 21.0
+    wall_length = target_line * scale + wall_extra_space_for_paper
+    preview_size = 25.7 if size == 'a3' else 18
+    preview_scale = preview_size /target_line
+    box_position = wall_length / 2
+
+    
+
+    rendered_html = render_template(
+        'pdf_template_shootoff.html',
+        distance=distance,
+        size=size,
+        wall_length=wall_length,
+        gap=SHOOTOFF_GAP*scale,
+        target_count=target_count,
+        scale=scale,
+        preview_scale=preview_scale,
+        box_position=box_position
+    )
+    #return rendered_html
+
+    pdf_file = io.BytesIO()
+    HTML(string=rendered_html).write_pdf(pdf_file)
+    pdf_file.seek(0)
+    filename = 'Paper Challenge - Shootoff - ' + str(distance) + 'cm-' + size + '.pdf'
+
+    return send_file(pdf_file, download_name=filename, as_attachment=False)
+
+@app.route('/generate-pdf-ipsc', methods=['POST'])
+def generate_pdf_ipsc():
+    distance = int(request.form.get('distance', 1) or 1)
+    size = request.form.get('size')
+    distance_type = request.form.get('distance_type')
+    scale = distance / IPSC_DISTANCE
+    wall_extra_space_for_paper = 29.7 if size == 'a3' else 21.0
+    if distance_type == 'wall':
+        scale = (distance - wall_extra_space_for_paper) / IPSC_STAGE_WIDTH
+        distance = scale * IPSC_DISTANCE
+    target_line = scale * IPSC_STAGE_WIDTH + wall_extra_space_for_paper
+    preview_size = 15 if size == 'a3' else 10
+    preview_scale = preview_size /target_line
+    box_position = target_line / 2
+
+    rendered_html = render_template(
+        'pdf_template_ipsc.html',
+        distance=distance,
+        size=size,
+        wall_length=target_line,
+        target_height=scale * IPSC_TARGET_HEIGHT,
+        target_width=scale * IPSC_TARGET_WIDTH,
+        gap=scale * IPSC_GAP + scale * IPSC_TARGET_WIDTH,
+        preview_margin=(wall_extra_space_for_paper - preview_size) / 2,
+        scale=scale,
+        preview_scale=preview_scale,
+        box_position=box_position
+    )
+#     return rendered_html
+
+    pdf_file = io.BytesIO()
+    HTML(string=rendered_html).write_pdf(pdf_file)
+    pdf_file.seek(0)
+    filename = 'Paper Challenge - IPSC - EL Presidente - ' + str(distance) + 'cm-' + size + '.pdf'
+
+    return send_file(pdf_file, download_name=filename, as_attachment=False)
+
+
 def calculate_distance(desired_wall_length, stage, size):
     wall_extra_space_for_paper = 297 if size == 'a3' else 210
 
@@ -175,50 +312,30 @@ def _target_info(distance, stage, size, target):
     }
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 
-@app.route('/generate-pdf', methods=['POST'])
-def generate_pdf():
-    distance = int(request.form.get('distance', 1) or 1)
-    distance_in_mm = distance * 10
-    stage = request.form.get('stage')
-    size = request.form.get('size')
-    distance_type = request.form.get('distance_type')
-    if distance_type == 'wall':
-        distance_in_mm = calculate_distance(distance_in_mm, stage, size)
 
-    targets = [f't{i}' for i in range(1, 6)]
-    target_info = [_target_info(distance_in_mm, stage, size, target) for target in targets]
-    wall_extra_space_for_paper = 297 if size == 'a3' else 210
-    wall_length = target_info[-1]['position'] + wall_extra_space_for_paper
-    preview_size = 267 if size == 'a3' else 190
-    preview_scale = preview_size / target_info[-1]['position']
-    preview_distance = distance_in_mm * preview_scale
-    preview_target_info = [_target_info(preview_distance, stage, size, target) for target in targets]
-    box_position = int(target_info[0]['sim_a_len']) / 10
+def calculate_distance_shootoff(desired_wall_length, size, target_count):
+    wall_extra_space_for_paper = 29.7 if size == 'a3' else 21.0
+    distance = 1
+    step = 100
 
-    rendered_html = render_template(
-        'pdf_template.html',
-        distance=distance_in_mm/10,
-        size=size,
-        stage=stage,
-        target_info=target_info,
-        preview_target_info=preview_target_info,
-        wall_length=wall_length,
-        box_position=box_position,
-    )
-    #return rendered_html
+    while True:
+       target_line = (target_count - 1) * SHOOTOFF_GAP
+       scale = distance / SHOOTOFF_DISTANCE
+       wall_length = target_line * scale + wall_extra_space_for_paper
+       print(distance, wall_length, desired_wall_length)
+       if abs(wall_length - desired_wall_length) <= 0.5:
+            break
+       if wall_length > desired_wall_length:
+            distance -= step
+            step = step / 10
+            continue
+       distance += step;
+       if distance > 700:
+            break
 
-    pdf_file = io.BytesIO()
-    HTML(string=rendered_html).write_pdf(pdf_file)
-    pdf_file.seek(0)
-    filename = 'Paper Challenge - ' + stage.replace('_', ' ') + ' - ' + str(distance) + 'cm-' + size + '.pdf'
-
-    return send_file(pdf_file, download_name=filename, as_attachment=False)
-
+    return distance
 
 if __name__ == '__main__':
     app.run(debug=True)

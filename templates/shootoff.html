@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Shootoff{% endblock %}
+{% block content %}
+<form class="" action="/generate-pdf-shootoff" method="post">
+    {% include 'setup.html' %}
+
+    <div class="mb-6 max-w-2xl mx-auto">
+        <h2>Shootoff</h2>
+
+        <div class="mb-6 max-w-2xl mx-auto mt-4">
+            <img src="{{ url_for('static', filename='images/shootoff.png') }}" alt="Shootoff">
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit"
+                class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors">
+            Generuj
+        </button>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Challenge - IPSC - El Presidente - {{ distance }} cm
+        - {{ size|capitalize }}</title>
+    <style>
+        @page {
+            size: {{size}};
+            margin: 5mm;
+        }
+
+        body {
+            font-family: sans-serif;
+        }
+
+        .target {
+            margin: auto;
+            text-align: center;
+        }   
+
+        .page-break {
+            page-break-after: always;
+        }
+
+        .content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .mounting-point {
+            height: 10mm;
+            width: 0.5mm;
+            background-color: #ccc;
+            margin: auto;
+        }
+
+        .mounting-info {
+            font-size: xx-small;
+            color: #ccc;
+            text-align: center;
+        }
+
+        .preview {
+            display: block;
+            border-bottom: solid 1px black;
+            border-top: solid 1px black;
+            width: 100%;
+            height: 75mm;
+            position: relative;
+        }
+        .preview-target {
+            position: absolute;
+            bottom: 30%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-break">
+        <h1>Paper Challenge</h1>
+        <h2>IPSC - El Presidente</h2>
+
+        <div class="preview">
+            {% for i in range(3) %}
+            <div class="preview-target w-[{{target_width*preview_scale}}cm] h-[{{target_height*preview_scale}}cm]" style="left: {{(preview_margin + i * preview_scale * gap)}}cm;">
+                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 530"  width="{{target_width*preview_scale}}cm" height="{{target_height*preview_scale}}cm">
+                    <title>ipsc-svg</title>
+                    <defs>
+                        {% include 'ipsc_target.html' %}
+                    </defs>
+                    <style>
+                    </style>
+                    <use id="Background" href="#img1" x="0" y="0"/>
+                </svg>
+            </div>
+            {% endfor %}
+        </div>
+
+        <p>Wymagana długość ściany: {{ wall_length|round(1,'ceil') }}cm</p>
+        <p>Odległość od ściany: {{ distance|round(1,'ceil') }}cm</p>
+        <p>Przygotowanie toru:</p>
+        <ul>
+            <li>Umieść z lewej lub prawej strony ściany pierwszy cel ze znacznikiem "punkt ZERO"</li>
+            <li>Wyznacz pole startowe {{ box_position|round(1,'ceil') }}cm od punktu "zero" (wzdłuż ściany) oraz w odległości {{distance}}cm od ściany</li>
+            <li>Upewnij się, że pole startowe znjaduje się w dogodnym miejscu, pomieszczenia, tak aby nic nie
+                przeszkazdało
+                w swobodnym dobyciu i składaniu do celów na całej szerokości ściany
+            </li>
+            <li>W razie potrzeby dostosuj pierwszy cel wraz z punktem ZERO i powtórz dwa powyższe kroki</li>
+            <li>Umieść na ścianie pozostałe cele zgodnie z odległościami podanymi na znacznikach pozycji na dole każdego
+                celu. Upewnij się, że wszystkie cele są umieszczone w jednej linii równoległej do podłoża</li>
+        </ul>
+
+    </div>
+    {% for i in range(3) %}
+    <div class="page-break">
+        <div class="content">
+            <div class="target mx-auto" style="width: {{target_width}}cm; height: {{target_height}}cm;" >
+                <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 530"  width="{{target_width}}cm" height="{{target_height}}cm"  >
+                    <title>ipsc-svg</title>
+                    <defs>
+                        {% include 'ipsc_target.html' %}
+                    </defs>
+                    <style>
+                    </style>
+                    <use id="Background" href="#img1" x="0" y="0"/>
+                </svg>
+            </div>
+            
+            {% if i==0 %}
+            <div class="mounting-info">punkt ZERO (El Presidente)</div>
+            {% else %}
+            <div class="mounting-info">{{ i * gap|round(1,'ceil') }}cm od punktu ZERO (El Presidente)</div>
+            {% endif %}
+            <div class="mounting-point"></div>
+        </div>
+    </div>
+    {% endfor %}
+
+</body>
+</html>
