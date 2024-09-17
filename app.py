@@ -222,6 +222,7 @@ def generate_pdf_ipsc():
     preview_size = 15 if size == 'a3' else 10
     preview_scale = preview_size /target_line
     box_position = target_line / 2
+    preview_margin=preview_scale * IPSC_TARGET_WIDTH/2
 
     rendered_html = render_template(
         'pdf_template_ipsc.html',
@@ -231,9 +232,10 @@ def generate_pdf_ipsc():
         target_height=scale * IPSC_TARGET_HEIGHT,
         target_width=scale * IPSC_TARGET_WIDTH,
         gap=scale * IPSC_GAP + scale * IPSC_TARGET_WIDTH,
-        preview_margin=(wall_extra_space_for_paper - preview_size) / 2,
-        scale=scale,
-        preview_scale=preview_scale,
+        preview_target_height=preview_scale * IPSC_TARGET_HEIGHT,
+        preview_target_width=preview_scale * IPSC_TARGET_WIDTH,
+        preview_margin=preview_margin,
+        preview_gap=preview_scale * IPSC_GAP + preview_margin,
         box_position=box_position
     )
 #     return rendered_html
