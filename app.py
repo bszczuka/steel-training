@@ -2,10 +2,21 @@ import math
 
 from flask import Flask, render_template, request, send_file
 from weasyprint import HTML
+from flask_babel import Babel, _
+
 import io
 
 app = Flask(__name__)
+app.config['BABEL_DEFAULT_LOCALE'] = 'en'
+app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'pl']  # Add supported languages here
+app.config['BABEL_DEFAULT_TIMEZONE'] = 'UTC'
 
+babel = Babel(app)
+
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
+    
 SHOOTOFF_DISTANCE = 1200
 SHOOTOFF_GAP = 100
 IPSC_DISTANCE = 914
@@ -213,6 +224,7 @@ def generate_pdf_ipsc():
     distance = int(request.form.get('distance', 1) or 1)
     size = request.form.get('size')
     distance_type = request.form.get('distance_type')
+    target_type = request.form.get('target_type')
     scale = distance / IPSC_DISTANCE
     wall_extra_space_for_paper = 29.7 if size == 'a3' else 21.0
     if distance_type == 'wall':
@@ -236,7 +248,8 @@ def generate_pdf_ipsc():
         preview_target_width=preview_scale * IPSC_TARGET_WIDTH,
         preview_margin=preview_margin,
         preview_gap=preview_scale * IPSC_GAP + preview_margin,
-        box_position=box_position
+        box_position=box_position,
+        target_type=target_type
     )
 #     return rendered_html
 

@@ -1,21 +1,35 @@
 {% extends "base.html" %}
-{% block title %}IPSC - El Presidente{% endblock %}
+{% block title %}El Presidente{% endblock %}
 {% block content %}
 
 
 <form class="" action="/generate-pdf-ipsc" method="post">
     {% include 'setup.html' %}
     <div class="mb-6 max-w-2xl mx-auto">
-        <h2>IPSC - El Presidente</h2>
+        <h2>{%trans%}Select the stage{%endtrans%}</h2>
 
-        <div class="mb-6 max-w-2xl mx-auto mt-4">
-            <img class="mx-auto" src="{{ url_for('static', filename='images/el_presidente_preview.webp') }}" alt="IPSC - El Presidente">
+        <div id="stage" class="grid grid-cols-1 gap-4">
+            <div>
+                <label for="ipsc">
+                    <p>IPSC</p>
+                    <img src="{{ url_for('static', filename='images/ipsc_el_presidente.webp') }}" alt="IPSC">
+                    <input type="radio" id="ipsc" name="target_type" value="ipsc" required>
+                </label>
+            </div>
+            <div>
+                <label for="idpa">
+                    <p>IDPA</p>
+                    <img src="{{ url_for('static', filename='images/idpa_el_presidente.webp') }}"
+                         alt="IDPA">
+                <input type="radio" id="idpa" name="target_type" value="idpa">
+                </label>
+            </div>
         </div>
     </div>
     <div class="text-center">
         <button type="submit"
                 class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors">
-            Generuj
+            {%trans%}Generate PDF{%endtrans%}
         </button>
     </div>
 </form>

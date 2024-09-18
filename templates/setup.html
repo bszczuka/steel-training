@@ -1,28 +1,28 @@
 <div class="mb-6 max-w-2xl mx-auto mt-10">
-    <h2>Wybierz rodzaj kalkulacji ze względu na ograniczoną długość ściany lub ograniczoną odległość stanowiska od ściany</h2>
+    <h2>{%trans%}Select the type of calculation based on the limited wall length or the limited distance of the shooting box from the wall{%endtrans%}</h2>
     <div class="flex gap-6 place-content-center">
         <label for="floor"
                class="cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all hover:border-blue-400">
-            <img src="{{ url_for('static', filename='images/floor.webp') }}" alt="Odległość od ściany"
+            <img src="{{ url_for('static', filename='images/floor.webp') }}" alt="{%trans%}Distance from wall{%endtrans%}"
                  class="w-40 h-auto">
         <input type="radio" id="floor" name="distance_type" value="floor" required>
         </label>
 
         <label for="wall"
                class="cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all hover:border-blue-400">
-            <img src="{{ url_for('static', filename='images/wall.webp') }}" alt="Długość ściany"
+            <img src="{{ url_for('static', filename='images/wall.webp') }}" alt="{%trans%}Wall length{%endtrans%}"
                  class="w-40 h-auto">
         <input type="radio" id="wall" name="distance_type" value="wall" required>
         </label>
 
     </div>
     <div class="mb-6 max-w-2xl mx-auto mt-4">
-        <h2>dystans [cm]</h2>
+        <h2>{%trans%}Distance{%endtrans%} [cm]</h2>
         <input type="number" id="distance" name="distance" min="100" max="700" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
     </div>
 </div>
 <div class="mb-6 max-w-2xl mx-auto mt-10">
-    <h2>Format druku</h2>
+    <h2>{%trans%}Printing format{%endtrans%}</h2>
     <div id="size" class="flex place-content-center">
         <label for="a4"
                class="cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all hover:border-blue-400">

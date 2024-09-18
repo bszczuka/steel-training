@@ -1,0 +1,80 @@
+# Polish translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-09-18 09:15+0200\n"
+"PO-Revision-Date: 2024-09-18 09:16+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pl\n"
+"Language-Team: pl <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+msgid "Generate stage for"
+msgstr "Wygeneruj tor"
+
+msgid "Select the type of calculation based on the limited wall length or the limited distance of the shooting box from the wall"
+msgstr "Wybierz rodzaj kalkulacji ze względu na ograniczoną długość ściany lub ograniczoną odległość stanowiska od "ściany"
+
+msgid "Distance from wall"
+msgstr "Odległość od ściany"
+
+msgid "Wall length"
+msgstr "Długość ściany"
+
+msgid "Distance"
+msgstr "Dystans"
+
+msgid "Printing format"
+msgstr "Format druku"
+
+msgid "Select the stage"
+msgstr "Wybierz tor"
+
+msgid "Generate PDF"
+msgstr "Wygeneruj PDF"
+
+msgid "Wall length required"
+msgstr "Wymagana długość ściany"
+
+msgid "Stage preparation"
+msgstr "Przygotowanie toru"
+
+msgid "Place the first target with the 'ZERO point' marker on the left side of the wall"
+msgstr "Umieść z lewej strony ściany pierwszy cel ze znacznikiem 'punkt ZERO'"
+
+msgid "Place the first target with the 'ZERO point' marker on the left or right side of the wall"
+msgstr "Umieść z lewej lub prawej strony ściany pierwszy cel ze znacznikiem 'punkt ZERO'"
+
+msgid "Set shooting box"
+msgstr "Wyznacz pole startowe"
+
+msgid "from 'ZERO' point (along the wall) and"
+msgstr "od punktu 'ZERO' (wzdłuż ściany) oraz w odległości"
+
+msgid "from the wall"
+msgstr "od ściany"
+
+msgid "Ensure that the starting field is positioned in a convenient location within the room, so that nothing obstructs the drawing and aiming at targets across the entire width of the wall"
+msgstr "Upewnij się, że pole startowe znjaduje się w dogodnym miejscu, pomieszczenia, tak aby nic nie przeszkazdało w swobodnym dobyciu i składaniu do celów na całej szerokości ściany"
+
+msgid "If necessary, adjust the first target along with the ZERO point and repeat the two previous steps"
+msgstr "W razie potrzeby dostosuj pierwszy cel wraz z punktem ZERO i powtórz dwa powyższe kroki"
+
+msgid "Place the remaining targets on the wall according to the distances indicated on the position markers at the bottom of each target. Ensure that all targets are aligned in a single line parallel to the ground"
+msgstr "Umieść na ścianie pozostałe cele zgodnie z odległościami podanymi na znacznikach pozycji na dole każdego celu. Upewnij się, że wszystkie cele są umieszczone w jednej linii równoległej do podłoża"
+
+msgid "ZERO point"
+msgstr "punkt ZERO"
+
+msgid "from ZERO point"
+msgstr "od punktu ZERO"

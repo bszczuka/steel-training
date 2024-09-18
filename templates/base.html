@@ -26,9 +26,9 @@
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
-    <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
+    <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">         
         <h1 class="text-2xl font-bold mb-6 text-center text-gray-700">Paper Challenge</h1>
-        <h2 class="my-10 mx-auto text-center font-bold text-xl">Wygeneruj tor {% block title %}{% endblock %}</h2>
+        <h2 class="my-10 mx-auto text-center font-bold text-xl">{% trans %}Generate stage for{% endtrans %} {% block title %}{% endblock %}</h2>
         <div class="flex justify-center gap-6">
             <a href="{{ url_for('index') }}"
                 class="{{ 'shadow-inner shadow-blue-900' if current_url == url_for('index') else '' }} bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
@@ -40,10 +40,18 @@
             </a>
             <a href="{{ url_for('ipsc') }}"
                     class="{{ 'shadow-inner shadow-blue-900' if current_url == url_for('ipsc') else '' }} bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
-                IPSC - El Presidente
+                El Presidente
+            </a>
+            
+        </div>
+        <div class="flex justify-center mt-4">
+            <a href="https://buycoffee.to/bogson" target="_blank"
+                    class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors">
+                Wesprzyj projekt
             </a>
         </div>
         {% block content %}{% endblock %}
     </div>
+
 </body>
 </html>

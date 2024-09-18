@@ -66,44 +66,44 @@
         <h2>IPSC - El Presidente</h2>
         <div class="preview">
             {% for i in range(3) %}
-            <div class="preview-target w-[{{preview_target_width}}cm] h-[{{preview_target_height}}cm]" style="left: {{(preview_margin + i * preview_gap)}}cm;">
-                <svg width="{{preview_target_width}}cm" height="{{preview_target_height}}cm" viewBox="0 0 450 570" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M150 0 0 190 0 380 150 570 300 570 450 380 450 190 300 0Z" fill="#CD9F61" stroke="#A97835"/>
-                    <path d="M150 0 75 190 75 335 175 450 275 450 375 335 375 190 300 0Z" fill="#CD9F61" stroke="#A97835"/>
-                    <path d="M200 25 150 190 150 275 200 350 250 350 300 275 300 190 250 25Z" fill="#CD9F61" stroke="#A97835"/>
-                </svg>
-            </div>
+                {% with preview_target_width = preview_target_width, preview_target_height = preview_target_height, preview_margin = preview_margin, preview_gap = preview_gap %}
+                    {%if target_type == 'ipsc' %}
+                        {%include 'ipsc_preview_svg.html'%}
+                    {%else%}
+                        {%include 'idpa_preview_svg.html'%}
+                    {%endif%}
+                {% endwith %}    
             {% endfor %}
         </div>
-        <p>Wymagana długość ściany: {{ wall_length|round(1,'ceil') }}cm</p>
-        <p>Odległość od ściany: {{ distance|round(1,'ceil') }}cm</p>
-        <p>Przygotowanie toru:</p>
+        <p>{%trans%}Wall length required{%endtrans%}: {{ wall_length|round(1,'ceil') }}cm</p>
+        <p>{%trans%}Distance from wall{%endtrans%}: {{ distance|round(1,'ceil') }}cm</p>
+        <p>{%trans%}Stage preparation{%endtrans%}:</p>
         <ul>
-            <li>Umieść z lewej lub prawej strony ściany pierwszy cel ze znacznikiem "punkt ZERO"</li>
-            <li>Wyznacz pole startowe {{ box_position|round(1,'ceil') }}cm od punktu "zero" (wzdłuż ściany) oraz w odległości {{distance}}cm od ściany</li>
-            <li>Upewnij się, że pole startowe znjaduje się w dogodnym miejscu, pomieszczenia, tak aby nic nie
-                przeszkazdało
-                w swobodnym dobyciu i składaniu do celów na całej szerokości ściany
-            </li>
-            <li>W razie potrzeby dostosuj pierwszy cel wraz z punktem ZERO i powtórz dwa powyższe kroki</li>
-            <li>Umieść na ścianie pozostałe cele zgodnie z odległościami podanymi na znacznikach pozycji na dole każdego
-                celu. Upewnij się, że wszystkie cele są umieszczone w jednej linii równoległej do podłoża</li>
+            <li>{%trans%}Place the first target with the 'ZERO point' marker on the left or right side of the wall{%endtrans%}</li>
+            <li>{%trans%}Set shooting box{%endtrans%} {{ box_position|round(1,'ceil') }}cm {%trans%}from 'ZERO' point (along the wall) and{%endtrans%} {{distance}}cm {%trans%}from the wall{%endtrans%}</li>
+            <li>{%trans%}Ensure that the starting field is positioned in a convenient location within the room, so that nothing obstructs the drawing and aiming at targets across the entire width of the wall{%endtrans%}</li>
+            <li>{%trans%}If necessary, adjust the first target along with the ZERO point and repeat the two previous steps{%endtrans%}</li>
+            <li>{%trans%}Place the remaining targets on the wall according to the distances indicated on the position markers at the bottom of each target. Ensure that all targets are aligned in a single line parallel to the ground{%endtrans%}</li>
         </ul>
 
     </div>
+
     {% for i in range(3) %}
     <div class="page-break">
         <div class="content">
-            <svg style="display: block; margin: auto;" width="{{target_width}}cm" height="{{target_height}}cm" viewBox="0 0 450 570" xmlns="http://www.w3.org/2000/svg">
-                <path d="M150 0 0 190 0 380 150 570 300 570 450 380 450 190 300 0Z" fill="#CD9F61" stroke="#A97835"/>
-                <path d="M150 0 75 190 75 335 175 450 275 450 375 335 375 190 300 0Z" fill="#CD9F61" stroke="#A97835"/>
-                <path d="M200 25 150 190 150 275 200 350 250 350 300 275 300 190 250 25Z" fill="#CD9F61" stroke="#A97835"/>
-            </svg>
+            {% with target_width=target_width, target_height=target_height %}
+                {%if target_type == 'ipsc' %}
+                    {%include 'ipsc_svg.html'%}
+                {%else%}
+                    {%include 'idpa_svg.html'%}
+                {%endif%}
+            {% endwith %}
+
             
             {% if i==0 %}
-            <div class="mounting-info">punkt ZERO (El Presidente)</div>
+            <div class="mounting-info">{%trans%}ZERO point{%endtrans%} (El Presidente)</div>
             {% else %}
-            <div class="mounting-info">{{ i * gap|round(1,'ceil') }}cm od punktu ZERO (El Presidente)</div>
+            <div class="mounting-info">{{ i * gap|round(1,'ceil') }}cm {%trans%}from ZERO point{%endtrans%} (El Presidente)</div>
             {% endif %}
             <div class="mounting-point"></div>
         </div>
