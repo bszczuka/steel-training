@@ -19,11 +19,14 @@ def get_locale():
     
 SHOOTOFF_DISTANCE = 1200
 SHOOTOFF_GAP = 100
+
 IPSC_DISTANCE = 914
 IPSC_GAP = 92
 IPSC_TARGET_WIDTH = 46
 IPSC_TARGET_HEIGHT = 58
 IPSC_STAGE_WIDTH = 322
+
+IDPA_TARGET_HEIGHT = 78
 
 VALUES = {
     "five_to_go": {
@@ -235,16 +238,17 @@ def generate_pdf_ipsc():
     preview_scale = preview_size / IPSC_STAGE_WIDTH
     box_position = target_line / 2
     preview_margin=(preview_size - 3*(preview_scale * IPSC_TARGET_WIDTH))/2
+    original_target_height= IPSC_TARGET_HEIGHT if target_type == 'ipsc' else  IDPA_TARGET_HEIGHT
 
     rendered_html = render_template(
         'pdf_template_ipsc.html',
         distance=distance,
         size=size,
         wall_length=target_line,
-        target_height=scale * IPSC_TARGET_HEIGHT,
+        target_height=scale * original_target_height,
         target_width=scale * IPSC_TARGET_WIDTH,
         gap=scale * IPSC_GAP + scale * IPSC_TARGET_WIDTH,
-        preview_target_height=preview_scale * IPSC_TARGET_HEIGHT,
+        preview_target_height=preview_scale * original_target_height,
         preview_target_width=preview_scale * IPSC_TARGET_WIDTH,
         preview_margin=preview_margin,
         preview_gap=preview_scale * IPSC_GAP + preview_margin,
