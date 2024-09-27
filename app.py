@@ -178,7 +178,7 @@ def generate_pdf():
     pdf_file = io.BytesIO()
     HTML(string=rendered_html).write_pdf(pdf_file)
     pdf_file.seek(0)
-    filename = 'Paper Challenge - ' + stage.replace('_', ' ') + ' - ' + str(distance) + 'cm-' + size + '.pdf'
+    filename = 'Steel Training - ' + stage.replace('_', ' ') + ' - ' + str(distance) + 'cm-' + size + '.pdf'
 
     return send_file(pdf_file, download_name=filename, as_attachment=False)
 
@@ -218,7 +218,7 @@ def generate_pdf_shootoff():
     pdf_file = io.BytesIO()
     HTML(string=rendered_html).write_pdf(pdf_file)
     pdf_file.seek(0)
-    filename = 'Paper Challenge - Shootoff - ' + str(distance) + 'cm-' + size + '.pdf'
+    filename = 'Steel Training - Shootoff - ' + str(distance) + 'cm-' + size + '.pdf'
 
     return send_file(pdf_file, download_name=filename, as_attachment=False)
 
@@ -260,7 +260,7 @@ def generate_pdf_ipsc():
     pdf_file = io.BytesIO()
     HTML(string=rendered_html).write_pdf(pdf_file)
     pdf_file.seek(0)
-    filename = 'Paper Challenge - IPSC - EL Presidente - ' + str(distance) + 'cm-' + size + '.pdf'
+    filename = 'Steel Training - IPSC - EL Presidente - ' + str(distance) + 'cm-' + size + '.pdf'
 
     return send_file(pdf_file, download_name=filename, as_attachment=False)
 
