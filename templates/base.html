@@ -42,6 +42,10 @@
                     class="{{ 'shadow-inner shadow-blue-900' if current_url == url_for('ipsc') else '' }} bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
                 El Presidente
             </a>
+            <a href="{{ url_for('custom') }}"
+                    class="{{ 'shadow-inner shadow-blue-900' if current_url == url_for('custom') else '' }} bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
+                Custom
+            </a>
             
         </div>
         <div class="flex justify-center mt-4">

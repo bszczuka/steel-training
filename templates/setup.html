@@ -7,13 +7,14 @@
                  class="w-40 h-auto">
         <input type="radio" id="floor" name="distance_type" value="floor" required>
         </label>
-
-        <label for="wall"
-               class="cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all hover:border-blue-400">
-            <img src="{{ url_for('static', filename='images/wall.webp') }}" alt="{%trans%}Wall length{%endtrans%}"
-                 class="w-40 h-auto">
-        <input type="radio" id="wall" name="distance_type" value="wall" required>
-        </label>
+        {% if current_url != url_for('custom') %}
+            <label for="wall"
+                class="cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all hover:border-blue-400">
+                <img src="{{ url_for('static', filename='images/wall.webp') }}" alt="{%trans%}Wall length{%endtrans%}"
+                    class="w-40 h-auto">
+            <input type="radio" id="wall" name="distance_type" value="wall" required>
+            </label>
+        {% endif %}
 
     </div>
     <div class="mb-6 max-w-2xl mx-auto mt-4">

@@ -76,5 +76,11 @@ msgstr "Umieść na ścianie pozostałe cele zgodnie z odległościami podanymi 
 msgid "ZERO point"
 msgstr "punkt ZERO"
 
-msgid "from ZERO point"
-msgstr "od punktu ZERO"
+msgid "Simulated distance"
+msgstr "Symulowany dystans"
+
+msgid "Place target on"
+msgstr "Umieść cel w odległości"
+
+msgid "Target"
+msgstr "Cel"

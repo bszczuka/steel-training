@@ -143,6 +143,10 @@ def shootoff():
 def ipsc():
     return render_template('ipsc.html', current_url=request.path)
 
+@app.route('/custom')
+def custom():
+    return render_template('custom.html', current_url=request.path)
+
 @app.route('/generate-pdf', methods=['POST'])
 def generate_pdf():
     distance = int(request.form.get('distance', 1) or 1)
@@ -263,6 +267,40 @@ def generate_pdf_ipsc():
     filename = 'Steel Training - IPSC - EL Presidente - ' + str(distance) + 'cm-' + size + '.pdf'
 
     return send_file(pdf_file, download_name=filename, as_attachment=False)
+
+@app.route('/generate-pdf-custom', methods=['POST'])
+def generate_pdf_custom():
+    distance = int(request.form.get('distance', 1) or 1)
+    simulated_distance_meters = int(request.form.get('simulated_distance') or 1)
+    simulated_distance = simulated_distance_meters * 100
+    size = request.form.get('size')
+    target_type = request.form.get('target_type')
+    scale = distance / simulated_distance
+    print(distance,simulated_distance_meters, simulated_distance, scale)
+    original_target_height= IPSC_TARGET_HEIGHT if target_type == 'ipsc' else  IDPA_TARGET_HEIGHT
+
+    rendered_html = render_template(
+        'pdf_template_custom.html',
+        distance=distance,
+        size=size,
+        target_height=scale * original_target_height,
+        target_width=scale * IPSC_TARGET_WIDTH,
+        gap=scale * IPSC_GAP + scale * IPSC_TARGET_WIDTH,
+        target_type=target_type,
+        simulated_distance=simulated_distance_meters
+    )
+#     return rendered_html
+
+    pdf_file = io.BytesIO()
+    HTML(string=rendered_html).write_pdf(pdf_file)
+    pdf_file.seek(0)
+    filename = 'Steel Training - '+target_type.upper()+' - Sim: ' + str(simulated_distance_meters) + 'm - ' + str(distance) + 'cm-' + size + '.pdf'
+
+    return send_file(pdf_file, download_name=filename, as_attachment=False)
+
+
+
+
 
 
 def calculate_distance(desired_wall_length, stage, size):

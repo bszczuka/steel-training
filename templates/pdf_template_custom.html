@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steel Training | {%trans%}Target{%endtrans%}: {{ target_type|upper }} | {%trans%}Simulated distance{%endtrans%}: {{ simulated_distance }}m | {%trans%}Place target on{%endtrans%}: {{distance}}cm</title>
+    <style>
+        @page {
+            size: {{size}};
+            margin: 5mm;
+        }
+
+        body {
+            font-family: sans-serif;
+        }
+
+        .target {
+            margin: auto;
+            text-align: center;
+        }   
+
+        .page-break {
+            page-break-after: always;
+        }
+
+        .content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .mounting-point {
+            height: 10mm;
+            width: 0.5mm;
+            background-color: #ccc;
+            margin: auto;
+        }
+
+        .mounting-info {
+            font-size: xx-small;
+            color: #ccc;
+            text-align: center;
+        }
+
+        .preview {
+            display: block;
+            border-bottom: solid 1px black;
+            border-top: solid 1px black;
+            width: 100%;
+            height: 75mm;
+            position: relative;
+        }
+        .preview-target {
+            position: absolute;
+            bottom: 30%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-break">
+        <div class="content">
+             {% with target_width=target_width, target_height=target_height %}
+                {%if target_type == 'ipsc' %}
+                    {%include 'ipsc_svg.html'%}
+                {%else%}
+                    {%include 'idpa_svg.html'%}
+                {%endif%}
+            {% endwith %}
+            <br>
+            <div class="mounting-info">
+                {%trans%}Target{%endtrans%}: {{ target_type|upper }} | {%trans%}Simulated distance{%endtrans%}: {{ simulated_distance }}m | {%trans%}Place target on{%endtrans%}: {{distance}}cm
+                <br>
+                Steel Training
+            </div>
+        </div>
+    </div>
+
+</body>
+</html
