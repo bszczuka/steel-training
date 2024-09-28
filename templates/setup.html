@@ -5,7 +5,7 @@
                class="cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all hover:border-blue-400">
             <img src="{{ url_for('static', filename='images/floor.webp') }}" alt="{%trans%}Distance from wall{%endtrans%}"
                  class="w-40 h-auto">
-        <input type="radio" id="floor" name="distance_type" value="floor" required>
+        <input type="radio" id="floor" name="distance_type" value="floor" required checked>
         </label>
         {% if current_url != url_for('custom') %}
             <label for="wall"
@@ -29,7 +29,7 @@
                class="cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all hover:border-blue-400">
             <img src="{{ url_for('static', filename='images/a4.webp') }}" alt="A4 (210mm x 297mm)"
                  class="w-40 h-auto">
-        <input type="radio" id="a4" name="size" value="a4" required>
+        <input type="radio" id="a4" name="size" value="a4" required checked>
         </label>
         <label for="a3"
                class="cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all hover:border-blue-400">

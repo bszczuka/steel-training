@@ -84,3 +84,9 @@ msgstr "Umieść cel w odległości"
 
 msgid "Target"
 msgstr "Cel"
+
+msgid "Custom distance"
+msgstr "Dystans niestandardowy"
+
+msgid "Select the target type"
+msgstr "Wybierz rodzaj celu"

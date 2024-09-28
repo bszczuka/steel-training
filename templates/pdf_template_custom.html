@@ -63,11 +63,13 @@
     <div class="page-break">
         <div class="content">
              {% with target_width=target_width, target_height=target_height %}
-                {%if target_type == 'ipsc' %}
+                {% if target_type == 'ipsc' %}
                     {%include 'ipsc_svg.html'%}
-                {%else%}
+                {% elif target_type == 'idpa' %}
                     {%include 'idpa_svg.html'%}
-                {%endif%}
+                {% else %}
+                    {% include 'popper_svg.html'%}
+                {% endif%}
             {% endwith %}
             <br>
             <div class="mounting-info">

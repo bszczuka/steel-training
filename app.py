@@ -27,6 +27,8 @@ IPSC_TARGET_HEIGHT = 58
 IPSC_STAGE_WIDTH = 322
 
 IDPA_TARGET_HEIGHT = 78
+POPPER_HEIGHT = 85
+POPPER_WIDTH = 30
 
 VALUES = {
     "five_to_go": {
@@ -276,15 +278,15 @@ def generate_pdf_custom():
     size = request.form.get('size')
     target_type = request.form.get('target_type')
     scale = distance / simulated_distance
-    print(distance,simulated_distance_meters, simulated_distance, scale)
-    original_target_height= IPSC_TARGET_HEIGHT if target_type == 'ipsc' else  IDPA_TARGET_HEIGHT
+    original_target_height= (IPSC_TARGET_HEIGHT if target_type == 'ipsc' else IDPA_TARGET_HEIGHT if target_type == 'idpa' else POPPER_HEIGHT)
+    original_target_width= (IPSC_TARGET_WIDTH if target_type == 'ipsc' else IPSC_TARGET_WIDTH if target_type == 'idpa' else POPPER_WIDTH)
 
     rendered_html = render_template(
         'pdf_template_custom.html',
         distance=distance,
         size=size,
         target_height=scale * original_target_height,
-        target_width=scale * IPSC_TARGET_WIDTH,
+        target_width=scale * original_target_width,
         gap=scale * IPSC_GAP + scale * IPSC_TARGET_WIDTH,
         target_type=target_type,
         simulated_distance=simulated_distance_meters

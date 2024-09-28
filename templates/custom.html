@@ -1,19 +1,27 @@
 {% extends "base.html" %}
-{% block title %}El Presidente{% endblock %}
+{% block title %}{%trans%}Custom distance{%endtrans%}{% endblock %}
 {% block content %}
 
 
 <form class="" action="/generate-pdf-custom" method="post">
     {% include 'setup.html' %}
+    <div class="mb-6 max-w-2xl mx-auto mt-4">
+        <h2>{%trans%}Simulated distance{%endtrans%} [m]</h2>
+        <input type="number" id="simulated_distance" name="simulated_distance" min="1" max="300" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+    </div>
     <div class="mb-6 max-w-2xl mx-auto">
-        <h2>{%trans%}Select the stage{%endtrans%}</h2>
-
-        <div class="mb-6 max-w-2xl mx-auto mt-4">
-            <h2>{%trans%}Simulated distance{%endtrans%} [m]</h2>
-            <input type="number" id="simulated_distance" name="simulated_distance" min="1" max="300" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
-        </div>
+        <h2>{%trans%}Select the target type{%endtrans%}</h2>
 
         <div id="stage" class="grid grid-cols-1 gap-4">
+            <div>
+                <label for="popper">
+                    <p>Popper</p>
+                    {% with target_width=3, target_height=8.5 %}
+                        {%include 'popper_svg.html'%}
+                    {% endwith %}
+                    <input type="radio" id="popper" name="target_type" value="popper" required>
+                </label>
+            </div>              
             <div>
                 <label for="ipsc">
                     <p>IPSC</p>
