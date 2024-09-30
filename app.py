@@ -22,13 +22,16 @@ SHOOTOFF_GAP = 100
 
 IPSC_DISTANCE = 914
 IPSC_GAP = 92
-IPSC_TARGET_WIDTH = 46
+IPSC_TARGET_WIDTH = 45
 IPSC_TARGET_HEIGHT = 58
 IPSC_STAGE_WIDTH = 322
 
 IDPA_TARGET_HEIGHT = 78
+IDPA_TARGET_WIDTH = 46
 POPPER_HEIGHT = 85
 POPPER_WIDTH = 30
+TS2_HEIGHT = 50
+TS2_WIDTH = 50
 
 VALUES = {
     "five_to_go": {
@@ -245,6 +248,7 @@ def generate_pdf_ipsc():
     box_position = target_line / 2
     preview_margin=(preview_size - 3*(preview_scale * IPSC_TARGET_WIDTH))/2
     original_target_height= IPSC_TARGET_HEIGHT if target_type == 'ipsc' else  IDPA_TARGET_HEIGHT
+    original_target_width= IPSC_TARGET_WIDTH if target_type == 'ipsc' else  IDPA_TARGET_WIDTH
 
     rendered_html = render_template(
         'pdf_template_ipsc.html',
@@ -255,7 +259,7 @@ def generate_pdf_ipsc():
         target_width=scale * IPSC_TARGET_WIDTH,
         gap=scale * IPSC_GAP + scale * IPSC_TARGET_WIDTH,
         preview_target_height=preview_scale * original_target_height,
-        preview_target_width=preview_scale * IPSC_TARGET_WIDTH,
+        preview_target_width=preview_scale * original_target_width,
         preview_margin=preview_margin,
         preview_gap=preview_scale * IPSC_GAP + preview_margin,
         box_position=box_position,
@@ -278,8 +282,12 @@ def generate_pdf_custom():
     size = request.form.get('size')
     target_type = request.form.get('target_type')
     scale = distance / simulated_distance
-    original_target_height= (IPSC_TARGET_HEIGHT if target_type == 'ipsc' else IDPA_TARGET_HEIGHT if target_type == 'idpa' else POPPER_HEIGHT)
-    original_target_width= (IPSC_TARGET_WIDTH if target_type == 'ipsc' else IPSC_TARGET_WIDTH if target_type == 'idpa' else POPPER_WIDTH)
+    original_target_height, original_target_width = {
+        'ipsc': (IPSC_TARGET_HEIGHT, IPSC_TARGET_WIDTH),
+        'idpa': (IDPA_TARGET_HEIGHT, IDPA_TARGET_WIDTH),
+        'ts2': (TS2_HEIGHT, TS2_WIDTH),
+        'popper': (POPPER_HEIGHT, POPPER_WIDTH),
+    }[target_type]
 
     rendered_html = render_template(
         'pdf_template_custom.html',
@@ -287,7 +295,7 @@ def generate_pdf_custom():
         size=size,
         target_height=scale * original_target_height,
         target_width=scale * original_target_width,
-        gap=scale * IPSC_GAP + scale * IPSC_TARGET_WIDTH,
+        gap=scale * IPSC_GAP + scale * original_target_width,
         target_type=target_type,
         simulated_distance=simulated_distance_meters
     )

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{%trans%}Custom distance{%endtrans%}{% endblock %}
+{% block title %}{%trans%}Custom{%endtrans%}{% endblock %}
 {% block content %}
 
 
@@ -13,6 +13,15 @@
         <h2>{%trans%}Select the target type{%endtrans%}</h2>
 
         <div id="stage" class="grid grid-cols-1 gap-4">
+            <div>
+                <label for="ts2">
+                    <p>TS-2</p>
+                    {% with target_width=5, target_height=5 %}
+                        {%include 'ts2_svg.html'%}
+                    {% endwith %}
+                    <input type="radio" id="ts2" name="target_type" value="ts2" required>
+                </label>
+            </div>
             <div>
                 <label for="popper">
                     <p>Popper</p>

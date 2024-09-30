@@ -6,9 +6,11 @@
 
     <div class="mb-6 max-w-2xl mx-auto">
         <h2>Shootoff</h2>
-
-        <div class="mb-6 max-w-2xl mx-auto mt-4">
-            <img src="{{ url_for('static', filename='images/shootoff.webp') }}" alt="Shootoff">
+        <div>
+            <label for="shootoff">
+                <img src="{{ url_for('static', filename='images/shootoff.webp') }}" alt="Shootoff">
+                <input type="radio" id="shootoff" name="stage" value="shootoff" required checked>
+            </label>
         </div>
     </div>
 
