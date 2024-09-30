@@ -23,7 +23,7 @@ msgid "Generate stage for"
 msgstr "Wygeneruj tor"
 
 msgid "Select the type of calculation based on the limited wall length or the limited distance of the shooting box from the wall"
-msgstr "Wybierz rodzaj kalkulacji ze względu na ograniczoną długość ściany lub ograniczoną odległość stanowiska od "ściany"
+msgstr "Wybierz rodzaj kalkulacji ze względu na ograniczoną długość ściany lub ograniczoną odległość stanowiska od ściany"
 
 msgid "Distance from wall"
 msgstr "Odległość od ściany"
