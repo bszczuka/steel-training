@@ -1,12 +1,15 @@
 import math
 
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, flash, redirect, url_for
 from weasyprint import HTML
 from flask_babel import Babel, _
 
-import io
+import io 
+import os
 
 app = Flask(__name__)
+secret_key = os.urandom(24)
+app.secret_key = secret_key
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'pl']  # Add supported languages here
 app.config['BABEL_DEFAULT_TIMEZONE'] = 'UTC'
@@ -154,8 +157,8 @@ def custom():
 
 @app.route('/generate-pdf', methods=['POST'])
 def generate_pdf():
-    distance = int(request.form.get('distance', 1) or 1)
-    distance_in_mm = distance * 10
+    distance = float(request.form.get('distance', 1) or 1)
+    distance_in_mm = distance * 1000
     stage = request.form.get('stage')
     size = request.form.get('size')
     distance_type = request.form.get('distance_type')
@@ -174,7 +177,7 @@ def generate_pdf():
 
     rendered_html = render_template(
         'pdf_template.html',
-        distance=distance_in_mm/10,
+        distance=distance_in_mm/1000,
         size=size,
         stage=stage,
         target_info=target_info,
@@ -187,14 +190,14 @@ def generate_pdf():
     pdf_file = io.BytesIO()
     HTML(string=rendered_html).write_pdf(pdf_file)
     pdf_file.seek(0)
-    filename = 'Steel Training - ' + stage.replace('_', ' ') + ' - ' + str(distance) + 'cm-' + size + '.pdf'
+    filename = 'Steel Training - ' + stage.replace('_', ' ') + ' - ' + str(distance) + 'm-' + size + '.pdf'
 
     return send_file(pdf_file, download_name=filename, as_attachment=False)
 
 
 @app.route('/generate-pdf-shootoff', methods=['POST'])
 def generate_pdf_shootoff():
-    distance = int(request.form.get('distance', 1) or 1)
+    distance = float(request.form.get('distance', 1) or 1) * 100
     size = request.form.get('size')
     distance_type = request.form.get('distance_type')
     target_count = 6
@@ -213,7 +216,7 @@ def generate_pdf_shootoff():
 
     rendered_html = render_template(
         'pdf_template_shootoff.html',
-        distance=distance,
+        distance=distance/100,
         size=size,
         wall_length=wall_length,
         gap=SHOOTOFF_GAP*scale,
@@ -227,13 +230,13 @@ def generate_pdf_shootoff():
     pdf_file = io.BytesIO()
     HTML(string=rendered_html).write_pdf(pdf_file)
     pdf_file.seek(0)
-    filename = 'Steel Training - Shootoff - ' + str(distance) + 'cm-' + size + '.pdf'
+    filename = 'Steel Training - Shootoff - ' + str(distance) + 'm-' + size + '.pdf'
 
     return send_file(pdf_file, download_name=filename, as_attachment=False)
 
 @app.route('/generate-pdf-ipsc', methods=['POST'])
 def generate_pdf_ipsc():
-    distance = int(request.form.get('distance', 1) or 1)
+    distance = float(request.form.get('distance', 1) or 1) * 100
     size = request.form.get('size')
     distance_type = request.form.get('distance_type')
     target_type = request.form.get('target_type')
@@ -252,7 +255,7 @@ def generate_pdf_ipsc():
 
     rendered_html = render_template(
         'pdf_template_ipsc.html',
-        distance=distance,
+        distance=round((distance / 100), 2),
         size=size,
         wall_length=target_line,
         target_height=scale * original_target_height,
@@ -270,15 +273,20 @@ def generate_pdf_ipsc():
     pdf_file = io.BytesIO()
     HTML(string=rendered_html).write_pdf(pdf_file)
     pdf_file.seek(0)
-    filename = 'Steel Training - IPSC - EL Presidente - ' + str(distance) + 'cm-' + size + '.pdf'
+    filename = 'Steel Training - IPSC - EL Presidente - ' + str(distance) + 'm-' + size + '.pdf'
 
     return send_file(pdf_file, download_name=filename, as_attachment=False)
 
 @app.route('/generate-pdf-custom', methods=['POST'])
 def generate_pdf_custom():
-    distance = int(request.form.get('distance', 1) or 1)
-    simulated_distance_meters = int(request.form.get('simulated_distance') or 1)
-    simulated_distance = simulated_distance_meters * 100
+    
+    distance = float(request.form.get('distance', 1) or 1)
+    simulated_distance = float(request.form.get('simulated_distance') or 1)
+    if distance > simulated_distance:
+       flash(_('Simulated distance cannot be greater than actual distance'), 'danger')
+       
+       return redirect(url_for('custom'))
+    
     size = request.form.get('size')
     target_type = request.form.get('target_type')
     scale = distance / simulated_distance
@@ -297,14 +305,14 @@ def generate_pdf_custom():
         target_width=scale * original_target_width,
         gap=scale * IPSC_GAP + scale * original_target_width,
         target_type=target_type,
-        simulated_distance=simulated_distance_meters
+        simulated_distance=simulated_distance
     )
 #     return rendered_html
 
     pdf_file = io.BytesIO()
     HTML(string=rendered_html).write_pdf(pdf_file)
     pdf_file.seek(0)
-    filename = 'Steel Training - '+target_type.upper()+' - Sim: ' + str(simulated_distance_meters) + 'm - ' + str(distance) + 'cm-' + size + '.pdf'
+    filename = 'Steel Training - '+target_type.upper()+' - Sim: ' + str(simulated_distance) + 'm - ' + str(distance) + 'm-' + size + '.pdf'
 
     return send_file(pdf_file, download_name=filename, as_attachment=False)
 
@@ -318,7 +326,6 @@ def calculate_distance(desired_wall_length, stage, size):
 
     distance = 1
     step = 1000
-
     while True:
         targets = [f't{i}' for i in range(1, 6)]
         target_info = [_target_info(distance, stage, size, target) for target in targets]
@@ -332,7 +339,7 @@ def calculate_distance(desired_wall_length, stage, size):
             step = step / 10
             continue
         distance += step;
-        if distance > 7000:
+        if distance > 25000:
             break
 
     return distance
@@ -391,7 +398,6 @@ def calculate_distance_shootoff(desired_wall_length, size, target_count):
        target_line = (target_count - 1) * SHOOTOFF_GAP
        scale = distance / SHOOTOFF_DISTANCE
        wall_length = target_line * scale + wall_extra_space_for_paper
-       print(distance, wall_length, desired_wall_length)
        if abs(wall_length - desired_wall_length) <= 0.5:
             break
        if wall_length > desired_wall_length:
@@ -399,7 +405,7 @@ def calculate_distance_shootoff(desired_wall_length, size, target_count):
             step = step / 10
             continue
        distance += step;
-       if distance > 700:
+       if distance > 2500:
             break
 
     return distance

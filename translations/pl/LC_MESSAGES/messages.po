@@ -90,3 +90,9 @@ msgstr "Niestandardowy"
 
 msgid "Select the target type"
 msgstr "Wybierz rodzaj celu"
+
+msgid "Simulated distance cannot be greater than actual distance"
+msgstr "Dystans symulowany nie może być większy niż dystans od ściany"
+
+msgid "Error"
+msgstr "Błąd"

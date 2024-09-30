@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steel Training - {{ stage.split('_') | map('capitalize') | join(' ') }} - {{ distance }} cm
+    <title>Steel Training - {{ stage.split('_') | map('capitalize') | join(' ') }} - {{ distance }}m
         - {{ size|capitalize }}</title>
     <style>
         @page {
@@ -83,11 +83,11 @@
     </div>
 
     <p>{%trans%}Wall length required{%endtrans%}: {{ wall_length/10 }}cm</p>
-    <p>{%trans%}Distance from wall{%endtrans%}: {{ distance|round(1,'ceil') }}cm</p>
+    <p>{%trans%}Distance from wall{%endtrans%}: {{ distance }}m</p>
     <p>{%trans%}Stage preparation{%endtrans%}:</p>
     <ul>
         <li>{%trans%}Place the first target with the 'ZERO point' marker on the left side of the wall{%endtrans%}</li>
-        <li>{%trans%}Set shooting box{%endtrans%} {{ box_position }}cm {%trans%}from 'ZERO' point (along the wall) and{%endtrans%} {{distance}}cm {%trans%}from the wall{%endtrans%}</li>
+        <li>{%trans%}Set shooting box{%endtrans%} {{ box_position }}cm {%trans%}from 'ZERO' point (along the wall) and{%endtrans%} {{distance}}m {%trans%}from the wall{%endtrans%}</li>
         <li>{%trans%}Ensure that the starting field is positioned in a convenient location within the room, so that nothing obstructs the drawing and aiming at targets across the entire width of the wall{%endtrans%}</li>
         <li>{%trans%}If necessary, adjust the first target along with the ZERO point and repeat the two previous steps{%endtrans%}</li>
         <li>{%trans%}Place the remaining targets on the wall according to the distances indicated on the position markers at the bottom of each target. Ensure that all targets are aligned in a single line parallel to the ground{%endtrans%}</li>

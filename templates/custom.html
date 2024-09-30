@@ -7,7 +7,7 @@
     {% include 'setup.html' %}
     <div class="mb-6 max-w-2xl mx-auto mt-4">
         <h2>{%trans%}Simulated distance{%endtrans%} [m]</h2>
-        <input type="number" id="simulated_distance" name="simulated_distance" min="1" max="300" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+        <input type="number" id="simulated_distance" name="simulated_distance" step="0.1" min="1" max="5000" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
     </div>
     <div class="mb-6 max-w-2xl mx-auto">
         <h2>{%trans%}Select the target type{%endtrans%}</h2>
@@ -19,7 +19,7 @@
                     {% with target_width=5, target_height=5 %}
                         {% include 'ts2_svg.html' %}
                     {% endwith %}
-                    <input type="radio" id="ts2" name="target_type" value="ts2" required class="m-1"> <!-- Margin added for spacing -->
+                    <input type="radio" id="ts2" name="target_type" value="ts2" required class="m-1"> 
                 </label>
             </div>
             <div class="flex flex-col justify-between h-full">
@@ -28,7 +28,7 @@
                     {% with target_width=3, target_height=8.5 %}
                         {% include 'popper_svg.html' %}
                     {% endwith %}
-                    <input type="radio" id="popper" name="target_type" value="popper" required class="m-1"> <!-- Margin added for spacing -->
+                    <input type="radio" id="popper" name="target_type" value="popper" required class="m-1">
                 </label>
             </div>
             <div class="flex flex-col justify-between h-full">
@@ -37,7 +37,7 @@
                     {% with target_width=4.5, target_height=5.8 %}
                         {% include 'ipsc_svg.html' %}
                     {% endwith %}
-                    <input type="radio" id="ipsc" name="target_type" value="ipsc" required class="m-1"> <!-- Margin added for spacing -->
+                    <input type="radio" id="ipsc" name="target_type" value="ipsc" required class="m-1">
                 </label>
             </div>
             <div class="flex flex-col justify-between h-full">

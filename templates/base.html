@@ -54,6 +54,23 @@
                 Wesprzyj projekt
             </a>
         </div>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="mt-4">
+                    {% for category, message in messages %}
+                        {% if category == 'danger' %}
+                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                            <strong class="font-bold">{% trans %}Error{% endtrans %}</strong>
+                        {%else%}
+                            <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative" role="alert">
+                            <strong class="font-bold">{% trans %}Info{% endtrans %}</strong>
+                        {%endif%}
+                            <span class="block sm:inline">{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
         {% block content %}{% endblock %}
     </div>
 
