@@ -12,44 +12,46 @@
     <div class="mb-6 max-w-2xl mx-auto">
         <h2>{%trans%}Select the target type{%endtrans%}</h2>
 
-        <div id="stage" class="grid grid-cols-1 gap-4">
-            <div>
-                <label for="ts2">
+        <div id="stage" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col justify-between h-full">
+                <label for="ts2" class="flex flex-col items-center justify-between h-full">
                     <p>TS-2</p>
                     {% with target_width=5, target_height=5 %}
-                        {%include 'ts2_svg.html'%}
+                        {% include 'ts2_svg.html' %}
                     {% endwith %}
-                    <input type="radio" id="ts2" name="target_type" value="ts2" required>
+                    <input type="radio" id="ts2" name="target_type" value="ts2" required class="mt-2"> <!-- Margin added for spacing -->
                 </label>
             </div>
-            <div>
-                <label for="popper">
+            <div class="flex flex-col justify-between h-full">
+                <label for="popper" class="flex flex-col items-center justify-between h-full">
                     <p>Popper</p>
                     {% with target_width=3, target_height=8.5 %}
-                        {%include 'popper_svg.html'%}
+                        {% include 'popper_svg.html' %}
                     {% endwith %}
-                    <input type="radio" id="popper" name="target_type" value="popper" required>
-                </label>
-            </div>              
-            <div>
-                <label for="ipsc">
-                    <p>IPSC</p>
-                    {% with target_width=4.5, target_height=5.8 %}
-                        {%include 'ipsc_svg.html'%}
-                    {% endwith %}
-                    <input type="radio" id="ipsc" name="target_type" value="ipsc" required>
+                    <input type="radio" id="popper" name="target_type" value="popper" required class="mt-2"> <!-- Margin added for spacing -->
                 </label>
             </div>
-            <div>
-                <label for="idpa">
+            <div class="flex flex-col justify-between h-full">
+                <label for="ipsc" class="flex flex-col items-center justify-between h-full">
+                    <p>IPSC</p>
+                    {% with target_width=4.5, target_height=5.8 %}
+                        {% include 'ipsc_svg.html' %}
+                    {% endwith %}
+                    <input type="radio" id="ipsc" name="target_type" value="ipsc" required class="mt-2"> <!-- Margin added for spacing -->
+                </label>
+            </div>
+            <div class="flex flex-col justify-between h-full">
+                <label for="idpa" class="flex flex-col items-center justify-between h-full">
                     <p>IDPA</p>
                     {% with target_width=4.6, target_height=7.8 %}
-                        {%include 'idpa_svg.html'%}
+                        {% include 'idpa_svg.html' %}
                     {% endwith %}
-                <input type="radio" id="idpa" name="target_type" value="idpa">
+                    <input type="radio" id="idpa" name="target_type" value="idpa" class="mt-2"> <!-- Margin added for spacing -->
                 </label>
             </div>
         </div>
+        
+        
     </div>
     <div class="text-center">
         <button type="submit"
