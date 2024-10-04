@@ -103,7 +103,11 @@
             {% if i==0 %}
             <div class="mounting-info">{%trans%}ZERO point{%endtrans%} (El Presidente)</div>
             {% else %}
-            <div class="mounting-info">{{ i * gap|round(1,'ceil') }}cm {%trans%}from ZERO point{%endtrans%} (El Presidente)</div>
+            <div class="mounting-info">{{ i * gap|round(1,'ceil') }}cm {%trans%}from ZERO point{%endtrans%} 
+                {% if i > 1%}
+                {%trans%}or{%endtrans%} {{gap|round(1,'ceil')}}cm {%trans%}from previous marker{%endtrans%} 
+                {% endif %}
+                (El Presidente)</div>
             {% endif %}
             <div class="mounting-point"></div>
         </div>
