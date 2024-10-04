@@ -30,6 +30,16 @@
             left: 0;
             right: 0;
         }
+        .content-oversized {
+            position: relative;
+            height: {{target_height}}cm; /* Paper height */
+            overflow: hidden; /* Hide overflow on both sides */
+        }
+        .content-oversized svg {
+            position: absolute;
+            left: 50%; /* Move to the center */
+            transform: translateX(-50%); /* Center the SVG horizontally */
+        }
 
         .mounting-point {
             height: 10mm;
@@ -42,6 +52,17 @@
             font-size: xx-small;
             color: #ccc;
             text-align: center;
+        }
+
+        .mounting-info-oversized {
+            font-size: xx-small;
+            color: #ccc;
+            text-align: center;
+            position: absolute;
+            z-index: 111;
+            bottom: 1.5cm;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .preview {
@@ -61,7 +82,7 @@
 
 <body>
     <div class="page-break">
-        <div class="content">
+        <div class="content{% if oversized %}-oversized{% endif %}">
              {% with target_width=target_width, target_height=target_height %}
                 {% if target_type == 'ipsc' %}
                     {%include 'ipsc_svg.html'%}
@@ -74,7 +95,7 @@
                 {% endif%}
             {% endwith %}
             <br>
-            <div class="mounting-info">
+            <div class="mounting-info{% if oversized %}-oversized{% endif %}">
                 {%trans%}Target{%endtrans%}: {{ target_type|upper }} | {%trans%}Simulated distance{%endtrans%}: {{ simulated_distance }}m | {%trans%}Place target on{%endtrans%}: {{distance}}m
                 <br>
                 Steel Training

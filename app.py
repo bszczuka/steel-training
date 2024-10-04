@@ -296,16 +296,23 @@ def generate_pdf_custom():
         'ts2': (TS2_HEIGHT, TS2_WIDTH),
         'popper': (POPPER_HEIGHT, POPPER_WIDTH),
     }[target_type]
+    target_height=scale * original_target_height
+    target_width=scale * original_target_width
+    if (size == 'a4' and target_width > 21) or (size == 'a3' and target_width > 29.7):
+       oversized = True
+    else:
+       oversized = False
 
     rendered_html = render_template(
         'pdf_template_custom.html',
         distance=distance,
         size=size,
-        target_height=scale * original_target_height,
-        target_width=scale * original_target_width,
+        target_height=target_height,
+        target_width=target_width,
         gap=scale * IPSC_GAP + scale * original_target_width,
         target_type=target_type,
-        simulated_distance=simulated_distance
+        simulated_distance=simulated_distance,
+        oversized=oversized
     )
 #     return rendered_html
 
