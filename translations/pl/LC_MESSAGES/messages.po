@@ -96,3 +96,12 @@ msgstr "Dystans symulowany nie może być większy niż dystans od ściany"
 
 msgid "Error"
 msgstr "Błąd"
+
+msgid "or"
+msgstr "lub"
+
+msgid "from previous marker"
+msgstr "od poprzedniego znacznika"
+
+msgid "from ZERO point"
+msgstr "od punktu ZERO"

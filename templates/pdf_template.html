@@ -94,6 +94,8 @@
     </ul>
 
 </div>
+{% set ns = namespace(previous_position = 0) %}
+
  {% for target in target_info %}
     <div class="page-break">
         <div class="content">
@@ -111,11 +113,16 @@
             {% if target.target == 't1' %}
                 <div class="mounting-info">{%trans%}ZERO point{%endtrans%} ({{ stage.split('_') | map('capitalize') | join(' ') }})</div>
             {% else %}
-                <div class="mounting-info">{{ target.position / 10 }}cm {%trans%}from ZERO point{%endtrans%} ({{ stage.split('_') | map('capitalize') | join(' ') }})</div>
+                <div class="mounting-info">{{ target.position / 10 }}cm {%trans%}from ZERO point{%endtrans%} 
+                    {% if target.target != 't2' %}
+                    {%trans%}or{%endtrans%} {{(target.position - ns.previous_position)/10}}cm {%trans%}from previous marker{%endtrans%} 
+                    {% endif %}
+                    ({{ stage.split('_') | map('capitalize') | join(' ') }})</div>
             {% endif %}
             <div class="mounting-point"></div>
         </div>
     </div>
+    {% set ns.previous_position = target.position %}
 {% endfor %}
 
 </body>
