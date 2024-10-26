@@ -418,4 +418,4 @@ def calculate_distance_shootoff(desired_wall_length, size, target_count):
     return distance
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
