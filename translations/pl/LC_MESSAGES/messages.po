@@ -49,11 +49,14 @@ msgstr "Wymagana długość ściany"
 msgid "Stage preparation"
 msgstr "Przygotowanie toru"
 
-msgid "Place the first target with the 'ZERO point' marker on the left side of the wall"
-msgstr "Umieść z lewej strony ściany pierwszy cel ze znacznikiem 'punkt ZERO'"
+msgid "Place the first target with the 'ZERO point' marker on the left side of the wall at a height of 1.5m"
+msgstr "Umieść z lewej strony ściany pierwszy cel ze znacznikiem 'punkt ZERO' na wysokości 1.5m"
 
-msgid "Place the first target with the 'ZERO point' marker on the left or right side of the wall"
-msgstr "Umieść z lewej lub prawej strony ściany pierwszy cel ze znacznikiem 'punkt ZERO'"
+msgid "Place the first target with the 'ZERO point' marker on the left or right side of the wall at a height of 1.5m"
+msgstr "Umieść z lewej lub prawej strony ściany pierwszy cel ze znacznikiem 'punkt ZERO' na wysokości 1.5m"
+
+msgid "Try to aim and if you feel it's too high, lower the target as needed"
+msgstr "Spróbuj wycelować i jeśli czujesz, że cel jest za wysoko obniż go do wygodnej dla Ciebie wysokości"
 
 msgid "Set shooting box"
 msgstr "Wyznacz pole startowe"
