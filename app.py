@@ -87,6 +87,45 @@ VALUES = {
                'side': 'right'},
 
     },
+    "outer_limits_left": {
+        "t1": {"len_a": 0, "len_h": 18300, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t2": {"len_a": 1800, "len_h": 32000, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False,
+               'side': 'right'},
+        "t3": {"len_a": 3700, "len_h": 16500, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True,
+               'side': 'right'},
+        "t4": {"len_a": 5600, "len_h": 32000, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False,
+               'side': 'right'},
+        "t5": {"len_a": 7400, "len_h": 18300, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
+
+    },
+    "outer_limits_center": {
+        "t1": {"len_a": 3700, "len_h": 18300, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t2": {"len_a": 1900, "len_h": 32000, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False,
+               'side': 'left'},
+        "t3": {"len_a": 0, "len_h": 16500, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True,
+               'side': 'left'},
+        "t4": {"len_a": 1900, "len_h": 32000, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False,
+               'side': 'right'},
+        "t5": {"len_a": 3700, "len_h": 18300, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
+
+    },
+    "outer_limits_right": {
+        "t1": {"len_a": 7400, "len_h": 18300, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'left'},
+        "t2": {"len_a": 5600, "len_h": 32000, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False,
+               'side': 'left'},
+        "t3": {"len_a": 3700, "len_h": 16500, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': True,
+               'side': 'left'},
+        "t4": {"len_a": 1800, "len_h": 32000, 'width': 400, 'height': 600, 'elevation': 150, 'stop_plate': False,
+               'side': 'left'},
+        "t5": {"len_a": 0, "len_h": 18300, 'width': 300, 'height': 300, 'elevation': 0, 'stop_plate': False,
+               'side': 'right'},
+
+    },
     "accelerator": {
         "t1": {"len_a": 3600, "len_h": 9100, 'width': 250, 'height': 250, 'elevation': 0, 'stop_plate': False,
                'side': 'left'},
@@ -418,4 +457,4 @@ def calculate_distance_shootoff(desired_wall_length, size, target_count):
     return distance
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')
